@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAD.API.FieldView", "MAD.API.FieldView\MAD.API.FieldView.csproj", "{486833DD-1838-4485-8ACE-C0F484CADCB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAD.API.FieldView.UnitTests", "MAD.API.FieldView.UnitTests\MAD.API.FieldView.UnitTests.csproj", "{900C4FF5-C280-43DB-B334-81B747F26307}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{486833DD-1838-4485-8ACE-C0F484CADCB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486833DD-1838-4485-8ACE-C0F484CADCB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486833DD-1838-4485-8ACE-C0F484CADCB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486833DD-1838-4485-8ACE-C0F484CADCB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{900C4FF5-C280-43DB-B334-81B747F26307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{900C4FF5-C280-43DB-B334-81B747F26307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{900C4FF5-C280-43DB-B334-81B747F26307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{900C4FF5-C280-43DB-B334-81B747F26307}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4742320B-1D11-4856-9ED3-EF05984EA1CE}
+	EndGlobalSection
+EndGlobal
