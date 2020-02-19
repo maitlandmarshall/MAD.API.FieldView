@@ -25,7 +25,7 @@ namespace MAD.API.FieldView.UnitTests
         public async Task GetProjectDetailsTest()
         {
             var client = this.GetClient();
-            var projects = await client.GetProjectDetails(null, null, null);
+            var projects = await client.GetProjectDetails(null, new int[] { 31854, 31852, 31855, 31856, 31827, 31814 }, null);
         }
 
         private async Task<IEnumerable<ProjectFormTemplateInformation>> GetAllProjectTemplateAsync()
@@ -63,14 +63,20 @@ namespace MAD.API.FieldView.UnitTests
             var templates = await this.GetAllProjectTemplateAsync();
 
             List<ProjectFormsListInformation> result = new List<ProjectFormsListInformation>();
+            DateTime startDate = DateTime.Now;
 
             foreach (var p in projects)
             {
-                var projectFormsList = await client.GetProjectFormsList(p.Id, templates.Select(y => y.FormTemplateLinkId).ToArray(),
-                    createdDateFrom: p.FinishDate.Value.AddMonths(-3),
-                    createdDateTo: p.FinishDate.Value);
+                for (int i = 0; i < 8; i++)
+                {
+                    DateTime threeMonthDelta = startDate.AddMonths(-3 * i);
 
-                result.AddRange(projectFormsList);
+                    var projectFormsList = await client.GetProjectFormsList(p.Id, templates.Select(y => y.FormTemplateLinkId).ToArray(),
+                       createdDateFrom: threeMonthDelta,
+                       createdDateTo: threeMonthDelta.AddMonths(3));
+
+                    result.AddRange(projectFormsList);
+                }
             }
 
             return result;
@@ -116,11 +122,126 @@ namespace MAD.API.FieldView.UnitTests
             {
                 var form = await client.GetForm(pfl.FormId);
 
-                if (form != null)
+                foreach (var f in form)
                 {
-                    var auditTrail = await client.GetFormAnswerAuditTrail(pfl.FormId, form.FormTemplateId, form.FormAnswerId);
+                    var auditTrail = await client.GetFormAnswerAuditTrail(f.FormId, f.FormTemplateId, f.FormAnswerId);
                 }
             }
         }
+
+        [TestMethod]
+        public async Task GetFormAnswerCommentsTest()
+        {
+            var client = this.GetClient();
+            var projectFormsList = await this.GetProjectFormsList();
+
+            foreach (var pfl in projectFormsList)
+            {
+                var form = await client.GetForm(pfl.FormId);
+
+                foreach (var f in form)
+                {
+                    var comments = await client.GetFormAnswerComments(f.FormAnswerId);
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task GetFormAuditTrailTest()
+        {
+            var client = this.GetClient();
+            var projectFormsList = await this.GetProjectFormsList();
+
+            foreach (var pfl in projectFormsList)
+            {
+                var form = await client.GetForm(pfl.FormId);
+                var auditTrail = await client.GetFormAuditTrail(pfl.FormId);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetFormCommentsTest()
+        {
+            var client = this.GetClient();
+            var projectFormsList = await this.GetProjectFormsList();
+
+            foreach (var pfl in projectFormsList)
+            {
+                var form = await client.GetForm(pfl.FormId);
+                var comments = await client.GetFormComments(pfl.FormId);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetFormWorkflowStatusListTest()
+        {
+            var client = this.GetClient();
+            var projectFormsList = await this.GetProjectFormsList();
+
+            foreach (var pfl in projectFormsList)
+            {
+                var form = await client.GetForm(pfl.FormId);
+
+                foreach (var f in form)
+                {
+                    var comments = await client.GetFormWorkflowStatusList(f.FormTemplateId);
+                }
+                
+            }
+        }
+
+        [TestMethod]
+        public async Task GetFormsSuperStatusCountTest()
+        {
+            var client = this.GetClient();
+            var projects = await client.GetProjectDetails(null, null, null);
+            var projectFormsList = await this.GetProjectFormsList();
+            var templates = await this.GetAllProjectTemplateAsync();
+
+            foreach (var p in projects)
+            {
+                foreach (var pfl in projectFormsList)
+                {
+                    var comments = await client.GetFormsSuperStatusCount(p.Id, 
+                        templates.Select(y => y.FormTemplateLinkId).ToArray(), pfl.CreatedDate.Value, pfl.CreatedDate.Value.AddMonths(2));
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task GetGroupTest()
+        {
+            var client = this.GetClient();
+            var projectFormsList = await this.GetProjectFormsList();
+
+            foreach (var pfl in projectFormsList)
+            {
+                var form = await client.GetForm(pfl.FormId);
+
+                foreach (var f in form)
+                {
+                    var group = await client.GetGroup(f.FormId, f.Alias);
+                }
+                
+            }
+        }
+
+        [TestMethod]
+        public async Task GetQuestionAnswer()
+        {
+            var client = this.GetClient();
+            var projectFormsList = await this.GetProjectFormsList();
+
+            foreach (var pfl in projectFormsList)
+            {
+                var form = await client.GetForm(pfl.FormId);
+
+                foreach (var f in form) 
+                {
+                    var answer = await client.GetQuestionAnswer(pfl.FormId, f.Question);
+                }
+            }
+        }
+
     }
 }

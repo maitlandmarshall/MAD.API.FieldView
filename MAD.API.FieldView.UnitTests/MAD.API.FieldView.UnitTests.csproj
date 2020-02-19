@@ -17,4 +17,10 @@
     <ProjectReference Include="..\MAD.API.FieldView\MAD.API.FieldView.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="APIToken.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
