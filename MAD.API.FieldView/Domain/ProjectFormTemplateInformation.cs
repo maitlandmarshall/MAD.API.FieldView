@@ -16,5 +16,6 @@ namespace MAD.API.FieldView.Domain
         public int BusinessUnitId { get; set; }
         public string BusinessUnit { get; set; }
         public bool Active { get; set; }
+        public int ProjectId { get; set; }
     }
 }

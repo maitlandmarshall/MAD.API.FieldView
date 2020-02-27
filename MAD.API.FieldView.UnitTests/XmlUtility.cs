@@ -11,20 +11,24 @@ namespace MAD.API.FieldView.UnitTests
     {
         [DataTestMethod]
         [DataRow(@"
-       <FormAnswerInformation>
-           <FormAnswerID></FormAnswerID>
-           <FormTemplateID></FormTemplateID>
-           <QuestionType></QuestionType>
-           <DataType></DataType>
-           <Question></Question>
-           <Answer></Answer>
-           <AnsweredBy></AnsweredBy>
-           <AnsweredDateTime></AnsweredDateTime>
-           <HasActions></HasActions>
-           <HasImages></HasImages>
-           <HasComments></HasComments>
-           <HasDocuments></HasDocuments>
-       </FormAnswerInformation>
+  <ProjectInformation>
+           <ID></ID>
+           <Name></Name>
+           <Reference></Reference>
+           <ProjectOwnerID></ProjectOwnerID>
+           <ProjectOwner></ProjectOwner>
+           <BusinessUnitTypeID></BusinessUnitTypeID>
+           <BusinessUnitType></BusinessUnitType>
+           <ProjectTypeID></ProjectTypeID>
+           <ProjectType></ProjectType>
+           <StartDate></StartDate>
+           <FinishDate></FinishDate>
+           <TimeZoneOffset></TimeZoneOffset>
+           <CultureID></CultureID>
+           <Culture></Culture>
+           <ResolutionDays></ResolutionDays>
+           <Active></Active>
+       </ProjectInformation>
 ")]
         public void XmlStringToClass(string xml)
         {

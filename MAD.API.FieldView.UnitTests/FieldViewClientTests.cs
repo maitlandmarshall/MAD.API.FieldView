@@ -25,7 +25,7 @@ namespace MAD.API.FieldView.UnitTests
         public async Task GetProjectDetailsTest()
         {
             var client = this.GetClient();
-            var projects = await client.GetProjectDetails(null, new int[] { 31854, 31852, 31855, 31856, 31827, 31814 }, null);
+            var projects = await client.GetProjectDetails(null, null, null);
         }
 
         private async Task<IEnumerable<ProjectFormTemplateInformation>> GetAllProjectTemplateAsync()

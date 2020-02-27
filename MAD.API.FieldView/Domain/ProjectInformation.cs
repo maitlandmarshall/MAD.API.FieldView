@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MAD.API.FieldView.Domain
 {
-    public class ProjectDetailInformation
+    public class ProjectInformation
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -22,19 +22,5 @@ namespace MAD.API.FieldView.Domain
         public string Culture { get; set; }
         public int ResolutionDays { get; set; }
         public bool Active { get; set; }
-        public string AddressType { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string Address3 { get; set; }
-        public string Address4 { get; set; }
-        public bool Calibration { get; set; }
-        public string CC { get; set; }
-        public int? PostCode { get; set; }
-        public bool ViewAllForms { get; set; }
-        public bool ViewOriginalTasks { get; set; }
-        public bool StampPhotosWithDate { get; set; }
-        public bool StampPhotosWithGPS { get; set; }
-        public string ClientProjectReference { get; set; }
-        public string Notes { get; set; }
     }
 }

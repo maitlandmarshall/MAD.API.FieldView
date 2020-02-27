@@ -7,6 +7,8 @@ using ProjectServicesEndpoint;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,19 +35,39 @@ namespace MAD.API.FieldView
             this.password = password;
         }
 
+        private void SetBindingTimeouts(Binding binding)
+        {
+            binding.CloseTimeout = TimeSpan.FromMinutes(60);
+            binding.OpenTimeout = TimeSpan.FromMinutes(60);
+            binding.ReceiveTimeout = TimeSpan.FromMinutes(60);
+            binding.SendTimeout = TimeSpan.FromMinutes(60);
+        }
+
         private async Task<API_ProjectServicesSoapClient> GetProjectServicesClient()
         {
-            return new API_ProjectServicesSoapClient(API_ProjectServicesSoapClient.EndpointConfiguration.API_ProjectServicesSoap);
+            API_ProjectServicesSoapClient result = new API_ProjectServicesSoapClient(API_ProjectServicesSoapClient.EndpointConfiguration.API_ProjectServicesSoap);
+
+            this.SetBindingTimeouts(result.Endpoint.Binding);
+
+            return result;
         }
 
         private async Task<API_FormsServicesSoapClient> GetFormsServicesClient()
         {
-            return new API_FormsServicesSoapClient(API_FormsServicesSoapClient.EndpointConfiguration.API_FormsServicesSoap);
+            var result = new API_FormsServicesSoapClient(API_FormsServicesSoapClient.EndpointConfiguration.API_FormsServicesSoap);
+
+            this.SetBindingTimeouts(result.Endpoint.Binding);
+
+            return result;
         }
 
         private async Task<API_ConfigurationServicesSoapClient> GetConfigurationServicesClient()
         {
-            return new API_ConfigurationServicesSoapClient(API_ConfigurationServicesSoapClient.EndpointConfiguration.API_ConfigurationServicesSoap);
+            var result = new API_ConfigurationServicesSoapClient(API_ConfigurationServicesSoapClient.EndpointConfiguration.API_ConfigurationServicesSoap);
+
+            this.SetBindingTimeouts(result.Endpoint.Binding);
+
+            return result;
         }
 
         private ProjectServicesEndpoint.ArrayOfInt GetProjectArrayOfInt(int[] array)
@@ -55,6 +77,23 @@ namespace MAD.API.FieldView
             if (array != null)
             {
                 arrayOfInt = new ProjectServicesEndpoint.ArrayOfInt();
+                arrayOfInt.AddRange(array ?? new int[] { });
+            }
+            else
+            {
+                arrayOfInt = null;
+            }
+
+            return arrayOfInt;
+        }
+
+        private ConfigurationServicesEndpoint.ArrayOfInt GetConfigArrayOfInt(int[] array)
+        {
+            ConfigurationServicesEndpoint.ArrayOfInt arrayOfInt;
+
+            if (array != null)
+            {
+                arrayOfInt = new ConfigurationServicesEndpoint.ArrayOfInt();
                 arrayOfInt.AddRange(array ?? new int[] { });
             }
             else
@@ -118,19 +157,20 @@ namespace MAD.API.FieldView
             return response.Entities;
         }
 
-        public async Task<IEnumerable<ProjectDetailInformation>> GetProjectDetails (string projectName = null,
+        public async Task<IEnumerable<ProjectInformation>> GetProjectDetails (string projectName = null,
                                                                                     int[] businessUnitIds = null,
                                                                                     bool? activeOnly = null,
                                                                                     int? take = null,
                                                                                     int? startRow = null)
         {
-            API_ProjectServicesSoapClient projectServicesClient = await this.GetProjectServicesClient();
+            API_ConfigurationServicesSoapClient configServicesClient = await this.GetConfigurationServicesClient();
 
-            return await this.RunApiWithPagination<ProjectDetailInformation>(
-                apiCall: async (take, startRow) => 
-                    (await projectServicesClient.GetProjectDetailsAsync(this.apiToken, projectName, this.GetProjectArrayOfInt(businessUnitIds), activeOnly, startRow, PageSize))
-                        .Body
-                        .GetProjectDetailsResult,
+            return await this.RunApiWithPagination<ProjectInformation>(
+                apiCall: async (take, startRow) =>
+                {
+                    GetProjectsResponse response = await configServicesClient.GetProjectsAsync(this.apiToken, null, this.GetConfigArrayOfInt(businessUnitIds), false, 1, 500);
+                    return response.Body.GetProjectsResult;
+                },
                 take: take,
                 startRow: startRow
              );
@@ -143,7 +183,12 @@ namespace MAD.API.FieldView
             API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
             GetProjectFormTemplatesResponse getProjectFormTemplatesResponse = await formsServicesClient.GetProjectFormTemplatesAsync(this.apiToken, projectId, viewAllOrganisationsFormTemplates, includeInactive);
 
-            return this.DeserializeResponse<ProjectFormTemplateInformation>(getProjectFormTemplatesResponse.Body.GetProjectFormTemplatesResult);
+            IEnumerable<ProjectFormTemplateInformation> result = this.DeserializeResponse<ProjectFormTemplateInformation>(getProjectFormTemplatesResponse.Body.GetProjectFormTemplatesResult);
+
+            foreach (var r in result)
+                r.ProjectId = projectId;
+
+            return result;
         }
 
         public async Task<IEnumerable<ProjectFormsListInformation>> GetProjectFormsList(int projectId,
@@ -192,6 +237,12 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormAnswerAuditTrail>> GetFormAnswerAuditTrail(string formId, int formTemplateId, string formAnswerId, bool isInTableRow = false)
         {
+            if (string.IsNullOrEmpty(formId))
+                throw new ArgumentException("But be not null and not empty.", nameof(formId));
+
+            if (string.IsNullOrEmpty(formAnswerId))
+                throw new ArgumentException("But be not null and not empty.", nameof(formAnswerId));
+
             API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
             GetFormAnswerAuditTrailResponse response = await formsServicesClient.GetFormAnswerAuditTrailAsync(this.apiToken, formId, formTemplateId, formAnswerId, isInTableRow);
 
@@ -200,6 +251,9 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<CommentInformation>> GetFormAnswerComments(string formAnswerId)
         {
+            if (string.IsNullOrEmpty(formAnswerId))
+                throw new ArgumentException("But be not null and not empty.", nameof(formAnswerId));
+
             API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
             GetFormAnswerCommentsResponse response = await formsServicesClient.GetFormAnswerCommentsAsync(this.apiToken, formAnswerId);
 
@@ -277,7 +331,12 @@ namespace MAD.API.FieldView
             API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
             GetQuestionAnswerResponse response = await formsServicesClient.GetQuestionAnswerAsync(this.apiToken, formId, questionAlias);
 
-            return this.DeserializeResponse<FormAnswerInformation>(response.Body.GetQuestionAnswerResult);
+            IEnumerable<FormAnswerInformation> result = this.DeserializeResponse<FormAnswerInformation>(response.Body.GetQuestionAnswerResult);
+
+            foreach (FormAnswerInformation r in result)
+                r.FormId = formId;
+
+            return result;
         }
 
     }

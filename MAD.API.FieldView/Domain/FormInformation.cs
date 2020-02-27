@@ -7,7 +7,7 @@ namespace MAD.API.FieldView.Domain
     public class FormInformation
     {
         public int FormTemplateId { get; set; }
-        public int FormTemplateLinkId { get; set; }
+        public int? FormTemplateLinkId { get; set; }
         public string FormAnswerId { get; set; }
         public int SortOrder { get; set; }
         public string Type { get; set; }
