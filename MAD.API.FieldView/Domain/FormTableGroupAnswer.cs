@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace MAD.API.FieldView.Domain
 {
@@ -8,7 +13,7 @@ namespace MAD.API.FieldView.Domain
 
         public string Id { get; set; }
         public string FormAnswerLinkId { get; set; }
-        public DateTime FormAnswerLinkDate { get; set; }
+        public DateTime? FormAnswerLinkDate { get; set; }
         public int SortOrder { get; set; }
         public string CheckItem { get; set; }
         public string Answers { get; set; }
@@ -19,5 +24,7 @@ namespace MAD.API.FieldView.Domain
         public bool HasImages { get; set; }
         public bool HasComments { get; set; }
         public bool HasDocuments { get; set; }
+
+        public JObject CustomAnswers { get; set; }
     }
 }
