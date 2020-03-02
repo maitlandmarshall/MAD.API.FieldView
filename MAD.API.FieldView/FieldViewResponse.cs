@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MAD.API.FieldView.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,5 +19,11 @@ namespace MAD.API.FieldView
     internal class FieldViewResponse <TEntity> : FieldViewResponse
     {
         public IEnumerable<TEntity> Entities { get; set; }
+    }
+
+    internal class FieldViewFormTableGroupResponse : FieldViewResponse
+    {
+        public List<FormTableGroupQuestion> Questions { get; set; }
+        public List<FormTableGroupAnswer> Answers { get; set; }
     }
 }

@@ -339,5 +339,21 @@ namespace MAD.API.FieldView
             return result;
         }
 
+        public async Task<FormTableGroup> GetTableGroup (string formId, int formTemplateLinkId)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetTableGroupResponse response = await formsServicesClient.GetTableGroupAsync(this.apiToken, formId, formTemplateLinkId);
+
+            FieldViewFormTableGroupResponse result = new FieldViewResponseFactory().Create(response.Body.GetTableGroupResult);
+
+            return new FormTableGroup
+            {
+                FormId = formId,
+                FormTemplateLinkId = formTemplateLinkId,
+                Questions = result.Questions,
+                Answers = result.Answers
+            };
+        }
+
     }
 }

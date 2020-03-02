@@ -243,5 +243,14 @@ namespace MAD.API.FieldView.UnitTests
             }
         }
 
+        [TestMethod]
+        public async Task GetTableGroup()
+        {
+            var client = this.GetClient();
+
+            await client.GetTableGroup("F31732.8", 2579696);
+
+        }
+
     }
 }
