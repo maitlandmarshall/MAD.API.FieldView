@@ -248,8 +248,28 @@ namespace MAD.API.FieldView.UnitTests
         {
             var client = this.GetClient();
 
-            await client.GetTableGroup("F31732.8", 2579696);
+            var projs = await this.GetProjectFormsList();
 
+            foreach (var p in projs)
+            {
+                await client.GetTableGroup(p.FormId, p.FormTemplateLinkId);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetStaticTableGroupRow()
+        {
+            var client = this.GetClient();
+            const string formId = "F27536.4";
+
+            var tg = await client.GetTableGroup(formId, 1934326);
+
+            foreach (var t in tg.Questions)
+            {
+                await client.GetStaticTableGroupRow(formId, "Expenditure List", t.Alias);
+            }
+
+            
         }
 
     }

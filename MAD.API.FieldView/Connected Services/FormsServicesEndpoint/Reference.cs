@@ -413,6 +413,10 @@ namespace FormsServicesEndpoint
             "tes", ReplyAction="*")]
         System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormTemplatesResponse> GetProjectFormTemplatesAsync(FormsServicesEndpoint.GetProjectFormTemplatesRequest request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetFormTemplateDetai" +
+            "ls", ReplyAction="*")]
+        System.Threading.Tasks.Task<FormsServicesEndpoint.GetFormTemplateDetailsResponse> GetFormTemplateDetailsAsync(FormsServicesEndpoint.GetFormTemplateDetailsRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetProjectFormsList", ReplyAction="*")]
         System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListResponse> GetProjectFormsListAsync(FormsServicesEndpoint.GetProjectFormsListRequest request);
         
@@ -847,6 +851,90 @@ namespace FormsServicesEndpoint
         public GetProjectFormTemplatesResponseBody(string GetProjectFormTemplatesResult)
         {
             this.GetProjectFormTemplatesResult = GetProjectFormTemplatesResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetFormTemplateDetailsRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetFormTemplateDetails", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public FormsServicesEndpoint.GetFormTemplateDetailsRequestBody Body;
+        
+        public GetFormTemplateDetailsRequest()
+        {
+        }
+        
+        public GetFormTemplateDetailsRequest(FormsServicesEndpoint.GetFormTemplateDetailsRequestBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetFormTemplateDetailsRequestBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string apiToken;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public int formTemplateID;
+        
+        public GetFormTemplateDetailsRequestBody()
+        {
+        }
+        
+        public GetFormTemplateDetailsRequestBody(string apiToken, int formTemplateID)
+        {
+            this.apiToken = apiToken;
+            this.formTemplateID = formTemplateID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetFormTemplateDetailsResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetFormTemplateDetailsResponse", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public FormsServicesEndpoint.GetFormTemplateDetailsResponseBody Body;
+        
+        public GetFormTemplateDetailsResponse()
+        {
+        }
+        
+        public GetFormTemplateDetailsResponse(FormsServicesEndpoint.GetFormTemplateDetailsResponseBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetFormTemplateDetailsResponseBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string GetFormTemplateDetailsResult;
+        
+        public GetFormTemplateDetailsResponseBody()
+        {
+        }
+        
+        public GetFormTemplateDetailsResponseBody(string GetFormTemplateDetailsResult)
+        {
+            this.GetFormTemplateDetailsResult = GetFormTemplateDetailsResult;
         }
     }
     
@@ -5130,6 +5218,21 @@ namespace FormsServicesEndpoint
             inValue.Body.viewAllOrganisationsFormTemplates = viewAllOrganisationsFormTemplates;
             inValue.Body.includeInactive = includeInactive;
             return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormTemplatesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<FormsServicesEndpoint.GetFormTemplateDetailsResponse> FormsServicesEndpoint.API_FormsServicesSoap.GetFormTemplateDetailsAsync(FormsServicesEndpoint.GetFormTemplateDetailsRequest request)
+        {
+            return base.Channel.GetFormTemplateDetailsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetFormTemplateDetailsResponse> GetFormTemplateDetailsAsync(string apiToken, int formTemplateID)
+        {
+            FormsServicesEndpoint.GetFormTemplateDetailsRequest inValue = new FormsServicesEndpoint.GetFormTemplateDetailsRequest();
+            inValue.Body = new FormsServicesEndpoint.GetFormTemplateDetailsRequestBody();
+            inValue.Body.apiToken = apiToken;
+            inValue.Body.formTemplateID = formTemplateID;
+            return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetFormTemplateDetailsAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

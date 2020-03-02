@@ -2,6 +2,7 @@
 {
     public class FormTableGroupQuestion
     {
+        public string FormId { get; set; }
         public int FormTemplateId { get; set; }
         public string QuestionType { get; set; }
         public string DataType { get; set; }

@@ -4,6 +4,8 @@ namespace MAD.API.FieldView.Domain
 {
     public class FormTableGroupAnswer
     {
+        public string FormId { get; set; }
+
         public string Id { get; set; }
         public string FormAnswerLinkId { get; set; }
         public DateTime FormAnswerLinkDate { get; set; }

@@ -9,6 +9,9 @@ namespace MAD.API.FieldView.Domain
         public string FormId { get; set; } 
         public int FormTemplateLinkId { get; set; }
 
+        public string TableGroupAlias { get; set; }
+        public string RowAlias { get; set; }
+
         public List<FormTableGroupQuestion> Questions { get; set; }
         public List<FormTableGroupAnswer> Answers { get; set; }
     }

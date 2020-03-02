@@ -346,6 +346,16 @@ namespace MAD.API.FieldView
 
             FieldViewFormTableGroupResponse result = new FieldViewResponseFactory().Create(response.Body.GetTableGroupResult);
 
+            foreach (FormTableGroupQuestion q in result.Questions)
+            {
+                q.FormId = formId;
+            }
+
+            foreach (FormTableGroupAnswer a in result.Answers)
+            {
+                a.FormId = formId;
+            }
+
             return new FormTableGroup
             {
                 FormId = formId,
@@ -353,6 +363,33 @@ namespace MAD.API.FieldView
                 Questions = result.Questions,
                 Answers = result.Answers
             };
+        }
+
+        public async Task<FormTableGroup> GetStaticTableGroupRow (string formId, string tableGroupAlias, string rowAlias)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetStaticTableGroupRowResponse response = await formsServicesClient.GetStaticTableGroupRowAsync(this.apiToken, formId, tableGroupAlias, rowAlias);
+
+            FieldViewFormTableGroupResponse result = new FieldViewResponseFactory().Create(response.Body.GetStaticTableGroupRowResult);
+
+            return new FormTableGroup
+            {
+                FormId = formId,
+                TableGroupAlias = tableGroupAlias,
+                RowAlias = rowAlias,
+                Questions = result.Questions,
+                Answers = result.Answers
+            };
+        }
+
+        public async Task<IEnumerable<FormTemplateInformation>> GetFormTemplateInformation(int formTemplateId)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetFormTemplateDetailsResponse response = await formsServicesClient.GetFormTemplateDetailsAsync(this.apiToken, formTemplateId);
+
+            IEnumerable<FormTemplateInformation> result = this.DeserializeResponse<FormTemplateInformation>(response.Body.GetFormTemplateDetailsResult);
+
+            return result;
         }
 
     }
