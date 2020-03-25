@@ -13,9 +13,23 @@ namespace MAD.API.FieldView
         {
             FieldViewResponse<TEntity> response = JsonConvert.DeserializeObject<FieldViewResponse<TEntity>>(json);
 
-            // Should be an object like this { "ProjectDetailInformation" : [] }
-            JObject result = JsonConvert.DeserializeObject<JObject>(json);
-            response.Entities = result.First.First.ToObject<IEnumerable<TEntity>>();
+            if (typeof(FormPhoto).IsAssignableFrom(typeof(TEntity))
+                || typeof(FormDocument).IsAssignableFrom(typeof(TEntity)))
+            {
+                // The API just doesn't have a consistent response pattern. These two entities's properties are returned in the root object
+                // rather than being a nested object property.
+
+                response.Entities = new List<TEntity>
+                {
+                    JsonConvert.DeserializeObject<TEntity>(json)
+                };
+            }
+            else
+            {
+                // Should be an object like this { "ProjectDetailInformation" : [] }
+                JObject result = JsonConvert.DeserializeObject<JObject>(json);
+                response.Entities = result.First.First.ToObject<IEnumerable<TEntity>>();
+            }
 
             return response;
         }

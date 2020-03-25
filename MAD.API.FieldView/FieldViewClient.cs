@@ -43,27 +43,33 @@ namespace MAD.API.FieldView
             binding.SendTimeout = TimeSpan.FromMinutes(60);
         }
 
+        private API_ProjectServicesSoapClient projectServicesSoapClient;
         private async Task<API_ProjectServicesSoapClient> GetProjectServicesClient()
         {
-            API_ProjectServicesSoapClient result = new API_ProjectServicesSoapClient(API_ProjectServicesSoapClient.EndpointConfiguration.API_ProjectServicesSoap);
+            API_ProjectServicesSoapClient result = this.projectServicesSoapClient 
+                ?? (this.projectServicesSoapClient = new API_ProjectServicesSoapClient(API_ProjectServicesSoapClient.EndpointConfiguration.API_ProjectServicesSoap));
 
             this.SetBindingTimeouts(result.Endpoint.Binding);
 
             return result;
         }
 
+        private API_FormsServicesSoapClient formsServicesClient;
         private async Task<API_FormsServicesSoapClient> GetFormsServicesClient()
         {
-            var result = new API_FormsServicesSoapClient(API_FormsServicesSoapClient.EndpointConfiguration.API_FormsServicesSoap);
+            var result = this.formsServicesClient ?? 
+                (this.formsServicesClient = new API_FormsServicesSoapClient(API_FormsServicesSoapClient.EndpointConfiguration.API_FormsServicesSoap));
 
             this.SetBindingTimeouts(result.Endpoint.Binding);
 
             return result;
         }
 
+        private API_ConfigurationServicesSoapClient configurationServicesClient;
         private async Task<API_ConfigurationServicesSoapClient> GetConfigurationServicesClient()
         {
-            var result = new API_ConfigurationServicesSoapClient(API_ConfigurationServicesSoapClient.EndpointConfiguration.API_ConfigurationServicesSoap);
+            var result = this.configurationServicesClient 
+                ?? (this.configurationServicesClient = new API_ConfigurationServicesSoapClient(API_ConfigurationServicesSoapClient.EndpointConfiguration.API_ConfigurationServicesSoap));
 
             this.SetBindingTimeouts(result.Endpoint.Binding);
 
@@ -365,6 +371,32 @@ namespace MAD.API.FieldView
             };
         }
 
+        public async Task<FormTableGroup> GetTableGroupByAlias(string formId, string tableGroupAlias)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetTableGroupByAliasResponse response = await formsServicesClient.GetTableGroupByAliasAsync(this.apiToken, formId, tableGroupAlias);
+
+            FieldViewFormTableGroupResponse result = new FieldViewResponseFactory().Create(response.Body.GetTableGroupByAliasResult);
+
+            foreach (FormTableGroupQuestion q in result.Questions)
+            {
+                q.FormId = formId;
+            }
+
+            foreach (FormTableGroupAnswer a in result.Answers)
+            {
+                a.FormId = formId;
+            }
+
+            return new FormTableGroup
+            {
+                FormId = formId,
+                TableGroupAlias = tableGroupAlias,
+                Questions = result.Questions,
+                Answers = result.Answers
+            };
+        }
+
         public async Task<FormTableGroup> GetStaticTableGroupRow (string formId, string tableGroupAlias, string rowAlias)
         {
             API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
@@ -392,5 +424,49 @@ namespace MAD.API.FieldView
             return result;
         }
 
+        public async Task<IEnumerable<FormAttachment>> GetFormAttachments(string formId, string answerId = null)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetFormAttachmentsResponse response = await formsServicesClient.GetFormAttachmentsAsync(this.apiToken, formId, answerId);
+
+            IEnumerable<FormAttachment> result = this.DeserializeResponse<FormAttachment>(response.Body.GetFormAttachmentsResult);
+
+            foreach (FormAttachment r in result)
+            {
+                r.FormId = formId;
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<FormDocument>> GetFormDocument (string formId, int documentId)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetFormDocumentResponse response = await formsServicesClient.GetFormDocumentAsync(this.apiToken, formId, documentId);
+
+            IEnumerable<FormDocument> result = this.DeserializeResponse<FormDocument>(response.Body.GetFormDocumentResult);
+
+            foreach (var r in result)
+            {
+                r.FormId = formId;
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<FormPhoto>> GetFormPhoto(string formId, string mediaId)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetFormPhotoResponse response = await formsServicesClient.GetFormPhotoAsync(this.apiToken, formId, mediaId);
+
+            IEnumerable<FormPhoto> result = this.DeserializeResponse<FormPhoto>(response.Body.GetFormPhotoResult);
+
+            foreach (FormPhoto r in result)
+            {
+                r.FormId = formId;
+            }
+
+            return result;
+        }
     }
 }
