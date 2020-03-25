@@ -116,6 +116,9 @@ namespace MAD.API.FieldView.UnitTests
         public async Task GetFormAnswerAuditTrailTest()
         {
             var client = this.GetClient();
+
+            await client.GetFormAnswerAuditTrail("F23845.99", 2487648, "23845.3462");
+
             var projectFormsList = await this.GetProjectFormsList();
 
             foreach (var pfl in projectFormsList)
