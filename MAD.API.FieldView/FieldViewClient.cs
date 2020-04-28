@@ -157,9 +157,6 @@ namespace MAD.API.FieldView
         {
             FieldViewResponse<TEntity> response = new FieldViewResponseFactory().Create<TEntity>(json);
 
-            if (response.Status.Code != 2)
-                throw new FieldViewResponseException(response);
-
             return response.Entities;
         }
 

@@ -424,6 +424,14 @@ namespace FormsServicesEndpoint
             "pdated", ReplyAction="*")]
         System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListUpdatedResponse> GetProjectFormsListUpdatedAsync(FormsServicesEndpoint.GetProjectFormsListUpdatedRequest request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetProjectFormsAttac" +
+            "hments", ReplyAction="*")]
+        System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsAttachmentsResponse> GetProjectFormsAttachmentsAsync(FormsServicesEndpoint.GetProjectFormsAttachmentsRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetProjectFormsComme" +
+            "nts", ReplyAction="*")]
+        System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsCommentsResponse> GetProjectFormsCommentsAsync(FormsServicesEndpoint.GetProjectFormsCommentsRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetForm", ReplyAction="*")]
         System.Threading.Tasks.Task<FormsServicesEndpoint.GetFormResponse> GetFormAsync(FormsServicesEndpoint.GetFormRequest request);
         
@@ -990,22 +998,22 @@ namespace FormsServicesEndpoint
         public System.Nullable<System.DateTime> statusChangedDateTo;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=8)]
-        public System.Nullable<System.DateTime> lastmodifiedDateFrom;
+        public System.Nullable<System.DateTime> lastModifiedDateFrom;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=9)]
-        public System.Nullable<System.DateTime> lastmodifiedDateTo;
+        public System.Nullable<System.DateTime> lastModifiedDateTo;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=10)]
-        public System.Nullable<System.DateTime> lastmodifiedOnServerDateFrom;
+        public System.Nullable<System.DateTime> lastModifiedOnServerDateFrom;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=11)]
-        public System.Nullable<System.DateTime> lastmodifiedOnServerDateTo;
+        public System.Nullable<System.DateTime> lastModifiedOnServerDateTo;
         
         public GetProjectFormsListRequestBody()
         {
         }
         
-        public GetProjectFormsListRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastmodifiedOnServerDateFrom, System.Nullable<System.DateTime> lastmodifiedOnServerDateTo)
+        public GetProjectFormsListRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
         {
             this.apiToken = apiToken;
             this.projectId = projectId;
@@ -1015,10 +1023,10 @@ namespace FormsServicesEndpoint
             this.createdDateTo = createdDateTo;
             this.statusChangedDateFrom = statusChangedDateFrom;
             this.statusChangedDateTo = statusChangedDateTo;
-            this.lastmodifiedDateFrom = lastmodifiedDateFrom;
-            this.lastmodifiedDateTo = lastmodifiedDateTo;
-            this.lastmodifiedOnServerDateFrom = lastmodifiedOnServerDateFrom;
-            this.lastmodifiedOnServerDateTo = lastmodifiedOnServerDateTo;
+            this.lastModifiedDateFrom = lastModifiedDateFrom;
+            this.lastModifiedDateTo = lastModifiedDateTo;
+            this.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
+            this.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
         }
     }
     
@@ -1099,10 +1107,10 @@ namespace FormsServicesEndpoint
         public FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
-        public System.Nullable<System.DateTime> lastmodifiedDateFrom;
+        public System.Nullable<System.DateTime> lastModifiedDateFrom;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
-        public System.Nullable<System.DateTime> lastmodifiedDateTo;
+        public System.Nullable<System.DateTime> lastModifiedDateTo;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
         public System.Nullable<System.DateTime> answerLastModifiedOnServerFrom;
@@ -1114,13 +1122,13 @@ namespace FormsServicesEndpoint
         {
         }
         
-        public GetProjectFormsListUpdatedRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
+        public GetProjectFormsListUpdatedRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
         {
             this.apiToken = apiToken;
             this.projectId = projectId;
             this.formTemplateLinkIds = formTemplateLinkIds;
-            this.lastmodifiedDateFrom = lastmodifiedDateFrom;
-            this.lastmodifiedDateTo = lastmodifiedDateTo;
+            this.lastModifiedDateFrom = lastModifiedDateFrom;
+            this.lastModifiedDateTo = lastModifiedDateTo;
             this.answerLastModifiedOnServerFrom = answerLastModifiedOnServerFrom;
             this.answerLastModifiedOnServerTo = answerLastModifiedOnServerTo;
         }
@@ -1163,6 +1171,214 @@ namespace FormsServicesEndpoint
         public GetProjectFormsListUpdatedResponseBody(string GetProjectFormsListUpdatedResult)
         {
             this.GetProjectFormsListUpdatedResult = GetProjectFormsListUpdatedResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetProjectFormsAttachmentsRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectFormsAttachments", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public FormsServicesEndpoint.GetProjectFormsAttachmentsRequestBody Body;
+        
+        public GetProjectFormsAttachmentsRequest()
+        {
+        }
+        
+        public GetProjectFormsAttachmentsRequest(FormsServicesEndpoint.GetProjectFormsAttachmentsRequestBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetProjectFormsAttachmentsRequestBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string apiToken;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public int projectId;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public System.Nullable<System.DateTime> lastModifiedDateFrom;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        public System.Nullable<System.DateTime> lastModifiedDateTo;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+        public System.Nullable<System.DateTime> lastModifiedOnServerDateFrom;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+        public System.Nullable<System.DateTime> lastModifiedOnServerDateTo;
+        
+        public GetProjectFormsAttachmentsRequestBody()
+        {
+        }
+        
+        public GetProjectFormsAttachmentsRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        {
+            this.apiToken = apiToken;
+            this.projectId = projectId;
+            this.formTemplateLinkIds = formTemplateLinkIds;
+            this.lastModifiedDateFrom = lastModifiedDateFrom;
+            this.lastModifiedDateTo = lastModifiedDateTo;
+            this.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
+            this.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetProjectFormsAttachmentsResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectFormsAttachmentsResponse", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public FormsServicesEndpoint.GetProjectFormsAttachmentsResponseBody Body;
+        
+        public GetProjectFormsAttachmentsResponse()
+        {
+        }
+        
+        public GetProjectFormsAttachmentsResponse(FormsServicesEndpoint.GetProjectFormsAttachmentsResponseBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetProjectFormsAttachmentsResponseBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string GetProjectFormsAttachmentsResult;
+        
+        public GetProjectFormsAttachmentsResponseBody()
+        {
+        }
+        
+        public GetProjectFormsAttachmentsResponseBody(string GetProjectFormsAttachmentsResult)
+        {
+            this.GetProjectFormsAttachmentsResult = GetProjectFormsAttachmentsResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetProjectFormsCommentsRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectFormsComments", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public FormsServicesEndpoint.GetProjectFormsCommentsRequestBody Body;
+        
+        public GetProjectFormsCommentsRequest()
+        {
+        }
+        
+        public GetProjectFormsCommentsRequest(FormsServicesEndpoint.GetProjectFormsCommentsRequestBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetProjectFormsCommentsRequestBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string apiToken;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public int projectId;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public System.Nullable<System.DateTime> lastModifiedDateFrom;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        public System.Nullable<System.DateTime> lastModifiedDateTo;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+        public System.Nullable<System.DateTime> lastModifiedOnServerDateFrom;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+        public System.Nullable<System.DateTime> lastModifiedOnServerDateTo;
+        
+        public GetProjectFormsCommentsRequestBody()
+        {
+        }
+        
+        public GetProjectFormsCommentsRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        {
+            this.apiToken = apiToken;
+            this.projectId = projectId;
+            this.formTemplateLinkIds = formTemplateLinkIds;
+            this.lastModifiedDateFrom = lastModifiedDateFrom;
+            this.lastModifiedDateTo = lastModifiedDateTo;
+            this.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
+            this.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetProjectFormsCommentsResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectFormsCommentsResponse", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public FormsServicesEndpoint.GetProjectFormsCommentsResponseBody Body;
+        
+        public GetProjectFormsCommentsResponse()
+        {
+        }
+        
+        public GetProjectFormsCommentsResponse(FormsServicesEndpoint.GetProjectFormsCommentsResponseBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetProjectFormsCommentsResponseBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string GetProjectFormsCommentsResult;
+        
+        public GetProjectFormsCommentsResponseBody()
+        {
+        }
+        
+        public GetProjectFormsCommentsResponseBody(string GetProjectFormsCommentsResult)
+        {
+            this.GetProjectFormsCommentsResult = GetProjectFormsCommentsResult;
         }
     }
     
@@ -5241,7 +5457,7 @@ namespace FormsServicesEndpoint
             return base.Channel.GetProjectFormsListAsync(request);
         }
         
-        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListResponse> GetProjectFormsListAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastmodifiedOnServerDateFrom, System.Nullable<System.DateTime> lastmodifiedOnServerDateTo)
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListResponse> GetProjectFormsListAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
         {
             FormsServicesEndpoint.GetProjectFormsListRequest inValue = new FormsServicesEndpoint.GetProjectFormsListRequest();
             inValue.Body = new FormsServicesEndpoint.GetProjectFormsListRequestBody();
@@ -5253,10 +5469,10 @@ namespace FormsServicesEndpoint
             inValue.Body.createdDateTo = createdDateTo;
             inValue.Body.statusChangedDateFrom = statusChangedDateFrom;
             inValue.Body.statusChangedDateTo = statusChangedDateTo;
-            inValue.Body.lastmodifiedDateFrom = lastmodifiedDateFrom;
-            inValue.Body.lastmodifiedDateTo = lastmodifiedDateTo;
-            inValue.Body.lastmodifiedOnServerDateFrom = lastmodifiedOnServerDateFrom;
-            inValue.Body.lastmodifiedOnServerDateTo = lastmodifiedOnServerDateTo;
+            inValue.Body.lastModifiedDateFrom = lastModifiedDateFrom;
+            inValue.Body.lastModifiedDateTo = lastModifiedDateTo;
+            inValue.Body.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
+            inValue.Body.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
             return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormsListAsync(inValue);
         }
         
@@ -5266,18 +5482,58 @@ namespace FormsServicesEndpoint
             return base.Channel.GetProjectFormsListUpdatedAsync(request);
         }
         
-        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListUpdatedResponse> GetProjectFormsListUpdatedAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListUpdatedResponse> GetProjectFormsListUpdatedAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
         {
             FormsServicesEndpoint.GetProjectFormsListUpdatedRequest inValue = new FormsServicesEndpoint.GetProjectFormsListUpdatedRequest();
             inValue.Body = new FormsServicesEndpoint.GetProjectFormsListUpdatedRequestBody();
             inValue.Body.apiToken = apiToken;
             inValue.Body.projectId = projectId;
             inValue.Body.formTemplateLinkIds = formTemplateLinkIds;
-            inValue.Body.lastmodifiedDateFrom = lastmodifiedDateFrom;
-            inValue.Body.lastmodifiedDateTo = lastmodifiedDateTo;
+            inValue.Body.lastModifiedDateFrom = lastModifiedDateFrom;
+            inValue.Body.lastModifiedDateTo = lastModifiedDateTo;
             inValue.Body.answerLastModifiedOnServerFrom = answerLastModifiedOnServerFrom;
             inValue.Body.answerLastModifiedOnServerTo = answerLastModifiedOnServerTo;
             return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormsListUpdatedAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsAttachmentsResponse> FormsServicesEndpoint.API_FormsServicesSoap.GetProjectFormsAttachmentsAsync(FormsServicesEndpoint.GetProjectFormsAttachmentsRequest request)
+        {
+            return base.Channel.GetProjectFormsAttachmentsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsAttachmentsResponse> GetProjectFormsAttachmentsAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        {
+            FormsServicesEndpoint.GetProjectFormsAttachmentsRequest inValue = new FormsServicesEndpoint.GetProjectFormsAttachmentsRequest();
+            inValue.Body = new FormsServicesEndpoint.GetProjectFormsAttachmentsRequestBody();
+            inValue.Body.apiToken = apiToken;
+            inValue.Body.projectId = projectId;
+            inValue.Body.formTemplateLinkIds = formTemplateLinkIds;
+            inValue.Body.lastModifiedDateFrom = lastModifiedDateFrom;
+            inValue.Body.lastModifiedDateTo = lastModifiedDateTo;
+            inValue.Body.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
+            inValue.Body.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
+            return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormsAttachmentsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsCommentsResponse> FormsServicesEndpoint.API_FormsServicesSoap.GetProjectFormsCommentsAsync(FormsServicesEndpoint.GetProjectFormsCommentsRequest request)
+        {
+            return base.Channel.GetProjectFormsCommentsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsCommentsResponse> GetProjectFormsCommentsAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        {
+            FormsServicesEndpoint.GetProjectFormsCommentsRequest inValue = new FormsServicesEndpoint.GetProjectFormsCommentsRequest();
+            inValue.Body = new FormsServicesEndpoint.GetProjectFormsCommentsRequestBody();
+            inValue.Body.apiToken = apiToken;
+            inValue.Body.projectId = projectId;
+            inValue.Body.formTemplateLinkIds = formTemplateLinkIds;
+            inValue.Body.lastModifiedDateFrom = lastModifiedDateFrom;
+            inValue.Body.lastModifiedDateTo = lastModifiedDateTo;
+            inValue.Body.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
+            inValue.Body.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
+            return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormsCommentsAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

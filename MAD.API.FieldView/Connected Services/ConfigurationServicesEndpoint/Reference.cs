@@ -1433,6 +1433,9 @@ namespace ConfigurationServicesEndpoint
         [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetGeometryTier", ReplyAction="*")]
         System.Threading.Tasks.Task<ConfigurationServicesEndpoint.GetGeometryTierResponse> GetGeometryTierAsync(ConfigurationServicesEndpoint.GetGeometryTierRequest request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetGeometryTree", ReplyAction="*")]
+        System.Threading.Tasks.Task<ConfigurationServicesEndpoint.GetGeometryTreeResponse> GetGeometryTreeAsync(ConfigurationServicesEndpoint.GetGeometryTreeRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="https://localhost.priority1.uk.net/Priority1WebServices/JSON/GetGeometry", ReplyAction="*")]
         System.Threading.Tasks.Task<ConfigurationServicesEndpoint.GetGeometryResponse> GetGeometryAsync(ConfigurationServicesEndpoint.GetGeometryRequest request);
         
@@ -5901,6 +5904,98 @@ namespace ConfigurationServicesEndpoint
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetGeometryTreeRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGeometryTree", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public ConfigurationServicesEndpoint.GetGeometryTreeRequestBody Body;
+        
+        public GetGeometryTreeRequest()
+        {
+        }
+        
+        public GetGeometryTreeRequest(ConfigurationServicesEndpoint.GetGeometryTreeRequestBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetGeometryTreeRequestBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string apiToken;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public System.Nullable<int> rootElementID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public int projectID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public bool activeOnly;
+        
+        public GetGeometryTreeRequestBody()
+        {
+        }
+        
+        public GetGeometryTreeRequestBody(string apiToken, System.Nullable<int> rootElementID, int projectID, bool activeOnly)
+        {
+            this.apiToken = apiToken;
+            this.rootElementID = rootElementID;
+            this.projectID = projectID;
+            this.activeOnly = activeOnly;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GetGeometryTreeResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGeometryTreeResponse", Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON", Order=0)]
+        public ConfigurationServicesEndpoint.GetGeometryTreeResponseBody Body;
+        
+        public GetGeometryTreeResponse()
+        {
+        }
+        
+        public GetGeometryTreeResponse(ConfigurationServicesEndpoint.GetGeometryTreeResponseBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="https://localhost.priority1.uk.net/Priority1WebServices/JSON")]
+    internal partial class GetGeometryTreeResponseBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string GetGeometryTreeResult;
+        
+        public GetGeometryTreeResponseBody()
+        {
+        }
+        
+        public GetGeometryTreeResponseBody(string GetGeometryTreeResult)
+        {
+            this.GetGeometryTreeResult = GetGeometryTreeResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     internal partial class GetGeometryRequest
     {
         
@@ -7799,6 +7894,23 @@ namespace ConfigurationServicesEndpoint
             inValue.Body.projectID = projectID;
             inValue.Body.activeOnly = activeOnly;
             return ((ConfigurationServicesEndpoint.API_ConfigurationServicesSoap)(this)).GetGeometryTierAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ConfigurationServicesEndpoint.GetGeometryTreeResponse> ConfigurationServicesEndpoint.API_ConfigurationServicesSoap.GetGeometryTreeAsync(ConfigurationServicesEndpoint.GetGeometryTreeRequest request)
+        {
+            return base.Channel.GetGeometryTreeAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ConfigurationServicesEndpoint.GetGeometryTreeResponse> GetGeometryTreeAsync(string apiToken, System.Nullable<int> rootElementID, int projectID, bool activeOnly)
+        {
+            ConfigurationServicesEndpoint.GetGeometryTreeRequest inValue = new ConfigurationServicesEndpoint.GetGeometryTreeRequest();
+            inValue.Body = new ConfigurationServicesEndpoint.GetGeometryTreeRequestBody();
+            inValue.Body.apiToken = apiToken;
+            inValue.Body.rootElementID = rootElementID;
+            inValue.Body.projectID = projectID;
+            inValue.Body.activeOnly = activeOnly;
+            return ((ConfigurationServicesEndpoint.API_ConfigurationServicesSoap)(this)).GetGeometryTreeAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

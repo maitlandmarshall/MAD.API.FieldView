@@ -31,6 +31,9 @@ namespace MAD.API.FieldView
                 response.Entities = result.First.First.ToObject<IEnumerable<TEntity>>();
             }
 
+            if (response.Status.Code != 2)
+                throw new FieldViewResponseException(response);
+
             return response;
         }
 
@@ -38,6 +41,9 @@ namespace MAD.API.FieldView
         {
             // TODO: Is there a better way to do this? I wish the API was more consistent with its responses
             FieldViewFormTableGroupResponse response = JsonConvert.DeserializeObject<FieldViewFormTableGroupResponse>(json);
+
+            if (response.Status.Code != 2)
+                throw new FieldViewResponseException(response);
 
             return response;
         }
