@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <None Update="APIToken.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

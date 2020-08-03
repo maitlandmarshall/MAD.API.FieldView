@@ -998,10 +998,10 @@ namespace FormsServicesEndpoint
         public System.Nullable<System.DateTime> statusChangedDateTo;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=8)]
-        public System.Nullable<System.DateTime> lastModifiedDateFrom;
+        public System.Nullable<System.DateTime> lastmodifiedDateFrom;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=9)]
-        public System.Nullable<System.DateTime> lastModifiedDateTo;
+        public System.Nullable<System.DateTime> lastmodifiedDateTo;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=10)]
         public System.Nullable<System.DateTime> lastModifiedOnServerDateFrom;
@@ -1013,7 +1013,7 @@ namespace FormsServicesEndpoint
         {
         }
         
-        public GetProjectFormsListRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        public GetProjectFormsListRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
         {
             this.apiToken = apiToken;
             this.projectId = projectId;
@@ -1023,8 +1023,8 @@ namespace FormsServicesEndpoint
             this.createdDateTo = createdDateTo;
             this.statusChangedDateFrom = statusChangedDateFrom;
             this.statusChangedDateTo = statusChangedDateTo;
-            this.lastModifiedDateFrom = lastModifiedDateFrom;
-            this.lastModifiedDateTo = lastModifiedDateTo;
+            this.lastmodifiedDateFrom = lastmodifiedDateFrom;
+            this.lastmodifiedDateTo = lastmodifiedDateTo;
             this.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
             this.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
         }
@@ -1107,10 +1107,10 @@ namespace FormsServicesEndpoint
         public FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
-        public System.Nullable<System.DateTime> lastModifiedDateFrom;
+        public System.Nullable<System.DateTime> lastmodifiedDateFrom;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
-        public System.Nullable<System.DateTime> lastModifiedDateTo;
+        public System.Nullable<System.DateTime> lastmodifiedDateTo;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
         public System.Nullable<System.DateTime> answerLastModifiedOnServerFrom;
@@ -1122,13 +1122,13 @@ namespace FormsServicesEndpoint
         {
         }
         
-        public GetProjectFormsListUpdatedRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
+        public GetProjectFormsListUpdatedRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
         {
             this.apiToken = apiToken;
             this.projectId = projectId;
             this.formTemplateLinkIds = formTemplateLinkIds;
-            this.lastModifiedDateFrom = lastModifiedDateFrom;
-            this.lastModifiedDateTo = lastModifiedDateTo;
+            this.lastmodifiedDateFrom = lastmodifiedDateFrom;
+            this.lastmodifiedDateTo = lastmodifiedDateTo;
             this.answerLastModifiedOnServerFrom = answerLastModifiedOnServerFrom;
             this.answerLastModifiedOnServerTo = answerLastModifiedOnServerTo;
         }
@@ -5457,7 +5457,7 @@ namespace FormsServicesEndpoint
             return base.Channel.GetProjectFormsListAsync(request);
         }
         
-        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListResponse> GetProjectFormsListAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListResponse> GetProjectFormsListAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
         {
             FormsServicesEndpoint.GetProjectFormsListRequest inValue = new FormsServicesEndpoint.GetProjectFormsListRequest();
             inValue.Body = new FormsServicesEndpoint.GetProjectFormsListRequestBody();
@@ -5469,8 +5469,8 @@ namespace FormsServicesEndpoint
             inValue.Body.createdDateTo = createdDateTo;
             inValue.Body.statusChangedDateFrom = statusChangedDateFrom;
             inValue.Body.statusChangedDateTo = statusChangedDateTo;
-            inValue.Body.lastModifiedDateFrom = lastModifiedDateFrom;
-            inValue.Body.lastModifiedDateTo = lastModifiedDateTo;
+            inValue.Body.lastmodifiedDateFrom = lastmodifiedDateFrom;
+            inValue.Body.lastmodifiedDateTo = lastmodifiedDateTo;
             inValue.Body.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
             inValue.Body.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
             return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormsListAsync(inValue);
@@ -5482,15 +5482,15 @@ namespace FormsServicesEndpoint
             return base.Channel.GetProjectFormsListUpdatedAsync(request);
         }
         
-        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListUpdatedResponse> GetProjectFormsListUpdatedAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastModifiedDateFrom, System.Nullable<System.DateTime> lastModifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListUpdatedResponse> GetProjectFormsListUpdatedAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> answerLastModifiedOnServerFrom, System.Nullable<System.DateTime> answerLastModifiedOnServerTo)
         {
             FormsServicesEndpoint.GetProjectFormsListUpdatedRequest inValue = new FormsServicesEndpoint.GetProjectFormsListUpdatedRequest();
             inValue.Body = new FormsServicesEndpoint.GetProjectFormsListUpdatedRequestBody();
             inValue.Body.apiToken = apiToken;
             inValue.Body.projectId = projectId;
             inValue.Body.formTemplateLinkIds = formTemplateLinkIds;
-            inValue.Body.lastModifiedDateFrom = lastModifiedDateFrom;
-            inValue.Body.lastModifiedDateTo = lastModifiedDateTo;
+            inValue.Body.lastmodifiedDateFrom = lastmodifiedDateFrom;
+            inValue.Body.lastmodifiedDateTo = lastmodifiedDateTo;
             inValue.Body.answerLastModifiedOnServerFrom = answerLastModifiedOnServerFrom;
             inValue.Body.answerLastModifiedOnServerTo = answerLastModifiedOnServerTo;
             return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormsListUpdatedAsync(inValue);

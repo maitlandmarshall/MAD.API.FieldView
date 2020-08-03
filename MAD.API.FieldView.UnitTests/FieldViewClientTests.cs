@@ -14,11 +14,7 @@ namespace MAD.API.FieldView.UnitTests
     {
         private FieldViewClient GetClient()
         {
-            string token = File.ReadAllText("APIToken.txt");
-
-            FieldViewClient client = new FieldViewClient(token);
-
-            return client;
+            return ClientFactory.Create();
         }
 
         [TestMethod]

@@ -13,7 +13,7 @@ namespace MAD.API.FieldView.Domain
         public string ProjectOwner { get; set; }
         public int BusinessUnitTypeId { get; set; }
         public string BusinessUnitType { get; set; }
-        public int ProjectTypeId { get; set; }
+        public int? ProjectTypeId { get; set; }
         public string ProjectType { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? FinishDate { get; set; }

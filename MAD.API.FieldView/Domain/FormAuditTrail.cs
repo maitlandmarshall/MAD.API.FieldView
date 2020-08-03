@@ -17,5 +17,6 @@ namespace MAD.API.FieldView.Domain
         public string SignatureType { get; set; }
         public string ClosedStatus { get; set; }
         public string LoggedOnUser { get; set; }
+        public string Signature { get; set; }
     }
 }
