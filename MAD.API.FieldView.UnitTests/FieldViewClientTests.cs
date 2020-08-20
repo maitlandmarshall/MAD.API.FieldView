@@ -271,5 +271,45 @@ namespace MAD.API.FieldView.UnitTests
             
         }
 
+        [TestMethod]
+        public async Task GetProjectFormAttachments()
+        {
+            var client = this.GetClient();
+            var projects = await client.GetProjectDetails(null, null, null);
+
+            foreach (var p in projects)
+            {
+                var attachments = await client.GetProjectFormAttachments(p.Id, DateTime.Now.AddDays(-25), DateTime.Now);
+
+                if (attachments.Any())
+                {
+                    if (1 == 1)
+                    {
+
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task GetProjectFormComments()
+        {
+            var client = this.GetClient();
+            var projects = await client.GetProjectDetails(null, null, null);
+
+            foreach (var p in projects)
+            {
+                var attachments = await client.GetProjectFormComments(p.Id, DateTime.Now.AddDays(-25), DateTime.Now);
+
+                if (attachments.Any())
+                {
+                    if (1 == 1)
+                    {
+
+                    }
+                }
+            }
+        }
+
     }
 }

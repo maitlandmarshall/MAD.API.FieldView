@@ -1004,16 +1004,16 @@ namespace FormsServicesEndpoint
         public System.Nullable<System.DateTime> lastmodifiedDateTo;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=10)]
-        public System.Nullable<System.DateTime> lastModifiedOnServerDateFrom;
+        public System.Nullable<System.DateTime> lastmodifiedOnServerDateFrom;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=11)]
-        public System.Nullable<System.DateTime> lastModifiedOnServerDateTo;
+        public System.Nullable<System.DateTime> lastmodifiedOnServerDateTo;
         
         public GetProjectFormsListRequestBody()
         {
         }
         
-        public GetProjectFormsListRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        public GetProjectFormsListRequestBody(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastmodifiedOnServerDateFrom, System.Nullable<System.DateTime> lastmodifiedOnServerDateTo)
         {
             this.apiToken = apiToken;
             this.projectId = projectId;
@@ -1025,8 +1025,8 @@ namespace FormsServicesEndpoint
             this.statusChangedDateTo = statusChangedDateTo;
             this.lastmodifiedDateFrom = lastmodifiedDateFrom;
             this.lastmodifiedDateTo = lastmodifiedDateTo;
-            this.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
-            this.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
+            this.lastmodifiedOnServerDateFrom = lastmodifiedOnServerDateFrom;
+            this.lastmodifiedOnServerDateTo = lastmodifiedOnServerDateTo;
         }
     }
     
@@ -4825,11 +4825,14 @@ namespace FormsServicesEndpoint
         [System.Runtime.Serialization.DataMemberAttribute(Order=7)]
         public System.Nullable<int> parentId;
         
+        [System.Runtime.Serialization.DataMemberAttribute(Order=8)]
+        public System.Nullable<bool> sortOnInsert;
+        
         public AddSimplePredefinedAnswerItemRequestBody()
         {
         }
         
-        public AddSimplePredefinedAnswerItemRequestBody(string apiToken, int predefinedAnswerGroupId, string description, System.Nullable<int> projectId, System.Nullable<decimal> weight, System.Nullable<decimal> score, string colour, System.Nullable<int> parentId)
+        public AddSimplePredefinedAnswerItemRequestBody(string apiToken, int predefinedAnswerGroupId, string description, System.Nullable<int> projectId, System.Nullable<decimal> weight, System.Nullable<decimal> score, string colour, System.Nullable<int> parentId, System.Nullable<bool> sortOnInsert)
         {
             this.apiToken = apiToken;
             this.predefinedAnswerGroupId = predefinedAnswerGroupId;
@@ -4839,6 +4842,7 @@ namespace FormsServicesEndpoint
             this.score = score;
             this.colour = colour;
             this.parentId = parentId;
+            this.sortOnInsert = sortOnInsert;
         }
     }
     
@@ -5457,7 +5461,7 @@ namespace FormsServicesEndpoint
             return base.Channel.GetProjectFormsListAsync(request);
         }
         
-        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListResponse> GetProjectFormsListAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastModifiedOnServerDateFrom, System.Nullable<System.DateTime> lastModifiedOnServerDateTo)
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.GetProjectFormsListResponse> GetProjectFormsListAsync(string apiToken, int projectId, FormsServicesEndpoint.ArrayOfInt formTemplateLinkIds, bool includeDeleted, System.Nullable<System.DateTime> createdDateFrom, System.Nullable<System.DateTime> createdDateTo, System.Nullable<System.DateTime> statusChangedDateFrom, System.Nullable<System.DateTime> statusChangedDateTo, System.Nullable<System.DateTime> lastmodifiedDateFrom, System.Nullable<System.DateTime> lastmodifiedDateTo, System.Nullable<System.DateTime> lastmodifiedOnServerDateFrom, System.Nullable<System.DateTime> lastmodifiedOnServerDateTo)
         {
             FormsServicesEndpoint.GetProjectFormsListRequest inValue = new FormsServicesEndpoint.GetProjectFormsListRequest();
             inValue.Body = new FormsServicesEndpoint.GetProjectFormsListRequestBody();
@@ -5471,8 +5475,8 @@ namespace FormsServicesEndpoint
             inValue.Body.statusChangedDateTo = statusChangedDateTo;
             inValue.Body.lastmodifiedDateFrom = lastmodifiedDateFrom;
             inValue.Body.lastmodifiedDateTo = lastmodifiedDateTo;
-            inValue.Body.lastModifiedOnServerDateFrom = lastModifiedOnServerDateFrom;
-            inValue.Body.lastModifiedOnServerDateTo = lastModifiedOnServerDateTo;
+            inValue.Body.lastmodifiedOnServerDateFrom = lastmodifiedOnServerDateFrom;
+            inValue.Body.lastmodifiedOnServerDateTo = lastmodifiedOnServerDateTo;
             return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).GetProjectFormsListAsync(inValue);
         }
         
@@ -6156,7 +6160,7 @@ namespace FormsServicesEndpoint
             return base.Channel.AddSimplePredefinedAnswerItemAsync(request);
         }
         
-        public System.Threading.Tasks.Task<FormsServicesEndpoint.AddSimplePredefinedAnswerItemResponse> AddSimplePredefinedAnswerItemAsync(string apiToken, int predefinedAnswerGroupId, string description, System.Nullable<int> projectId, System.Nullable<decimal> weight, System.Nullable<decimal> score, string colour, System.Nullable<int> parentId)
+        public System.Threading.Tasks.Task<FormsServicesEndpoint.AddSimplePredefinedAnswerItemResponse> AddSimplePredefinedAnswerItemAsync(string apiToken, int predefinedAnswerGroupId, string description, System.Nullable<int> projectId, System.Nullable<decimal> weight, System.Nullable<decimal> score, string colour, System.Nullable<int> parentId, System.Nullable<bool> sortOnInsert)
         {
             FormsServicesEndpoint.AddSimplePredefinedAnswerItemRequest inValue = new FormsServicesEndpoint.AddSimplePredefinedAnswerItemRequest();
             inValue.Body = new FormsServicesEndpoint.AddSimplePredefinedAnswerItemRequestBody();
@@ -6168,6 +6172,7 @@ namespace FormsServicesEndpoint
             inValue.Body.score = score;
             inValue.Body.colour = colour;
             inValue.Body.parentId = parentId;
+            inValue.Body.sortOnInsert = sortOnInsert;
             return ((FormsServicesEndpoint.API_FormsServicesSoap)(this)).AddSimplePredefinedAnswerItemAsync(inValue);
         }
         

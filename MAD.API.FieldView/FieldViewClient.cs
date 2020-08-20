@@ -37,13 +37,13 @@ namespace MAD.API.FieldView
 
         private void SetBindingTimeouts(Binding binding)
         {
-            binding.CloseTimeout = TimeSpan.FromMinutes(60);
-            binding.OpenTimeout = TimeSpan.FromMinutes(60);
-            binding.ReceiveTimeout = TimeSpan.FromMinutes(60);
-            binding.SendTimeout = TimeSpan.FromMinutes(60);
+            binding.CloseTimeout = TimeSpan.FromMinutes(500);
+            binding.OpenTimeout = TimeSpan.FromMinutes(500);
+            binding.ReceiveTimeout = TimeSpan.FromMinutes(500);
+            binding.SendTimeout = TimeSpan.FromMinutes(500);
         }
 
-        private API_ProjectServicesSoapClient projectServicesSoapClient;
+        private readonly API_ProjectServicesSoapClient projectServicesSoapClient;
         private async Task<API_ProjectServicesSoapClient> GetProjectServicesClient()
         {
             API_ProjectServicesSoapClient result = this.projectServicesSoapClient;
@@ -66,7 +66,7 @@ namespace MAD.API.FieldView
             return result;
         }
 
-        private API_FormsServicesSoapClient formsServicesClient;
+        private readonly API_FormsServicesSoapClient formsServicesClient;
         private async Task<API_FormsServicesSoapClient> GetFormsServicesClient()
         {
             API_FormsServicesSoapClient result = this.formsServicesClient;
@@ -82,13 +82,13 @@ namespace MAD.API.FieldView
                     result = new API_FormsServicesSoapClient(API_FormsServicesSoapClient.EndpointConfiguration.API_FormsServicesSoap);
                 }
             }
-                
+
             this.SetBindingTimeouts(result.Endpoint.Binding);
 
             return result;
         }
 
-        private API_ConfigurationServicesSoapClient configurationServicesClient;
+        private readonly API_ConfigurationServicesSoapClient configurationServicesClient;
         private async Task<API_ConfigurationServicesSoapClient> GetConfigurationServicesClient()
         {
             API_ConfigurationServicesSoapClient result = this.configurationServicesClient;
@@ -104,7 +104,7 @@ namespace MAD.API.FieldView
                     result = new API_ConfigurationServicesSoapClient(API_ConfigurationServicesSoapClient.EndpointConfiguration.API_ConfigurationServicesSoap);
                 }
             }
-                
+
 
             this.SetBindingTimeouts(result.Endpoint.Binding);
 
@@ -333,6 +333,16 @@ namespace MAD.API.FieldView
             return comments;
         }
 
+        public async Task<IEnumerable<CommentInformation>> GetProjectFormComments(int projectId, DateTime lastModifiedDateFrom, DateTime lastModifiedDateTo)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            var response = await formsServicesClient.GetProjectFormsCommentsAsync(this.apiToken, projectId, new FormsServicesEndpoint.ArrayOfInt(), lastModifiedDateFrom, lastModifiedDateTo, null, null);
+
+            IEnumerable<CommentInformation> comments = this.DeserializeResponse<CommentInformation>(response.Body.GetProjectFormsCommentsResult);
+
+            return comments;
+        }
+
         public async Task<IEnumerable<FormWorkflowStatus>> GetFormWorkflowStatusList(int formTemplateId, int? projectId = null)
         {
             API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
@@ -467,6 +477,16 @@ namespace MAD.API.FieldView
             {
                 r.FormId = formId;
             }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<FormsListAttachmentInformation>> GetProjectFormAttachments(int projectId, DateTime lastmodifiedDateFrom, DateTime lastmodifiedDateTo)
+        {
+            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
+            GetProjectFormsAttachmentsResponse response = await formsServicesClient.GetProjectFormsAttachmentsAsync(this.apiToken, projectId, new FormsServicesEndpoint.ArrayOfInt(), lastmodifiedDateFrom, lastmodifiedDateTo, null, null);
+
+            IEnumerable<FormsListAttachmentInformation> result = this.DeserializeResponse<FormsListAttachmentInformation>(response.Body.GetProjectFormsAttachmentsResult);
 
             return result;
         }

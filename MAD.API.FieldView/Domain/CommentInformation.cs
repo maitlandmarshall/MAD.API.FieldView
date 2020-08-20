@@ -12,6 +12,10 @@ namespace MAD.API.FieldView.Domain
         public string Comment { get; set; }
         public string CreatedByUser { get; set; }
         public string CreatedByOrganisation { get; set; }
+
+        public string OwnerId { get; set; }
+        public string CommentType { get; set; }
+
         public DateTime? Date { get; set; }
         public DateTime? LastModified { get; set; }
     }
