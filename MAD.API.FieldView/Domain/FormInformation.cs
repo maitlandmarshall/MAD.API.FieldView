@@ -14,6 +14,7 @@ namespace MAD.API.FieldView.Domain
         public string QuestionType { get; set; }
         public string DataType { get; set; }
         public string Question { get; set; }
+        public string QuestionSanitized { get; set; }
         public string Alias { get; set; }
         public int Level { get; set; }
         public string Answer { get; set; }

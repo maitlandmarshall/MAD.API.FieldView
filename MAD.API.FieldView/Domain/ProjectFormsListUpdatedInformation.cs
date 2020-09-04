@@ -7,6 +7,7 @@ namespace MAD.API.FieldView.Domain
     public class ProjectFormsListUpdatedInformation
     {
         public int FormTemplateId { get; set; }
+        public int ProjectId { get; set; }
         public string FormId { get; set; }
         public string FormAnswerId { get; set; }
         public string FormAnswerLinkId { get; set; }

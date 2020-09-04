@@ -8,7 +8,7 @@ namespace MAD.API.FieldView.Domain
     public class FormTableGroup
     {
         public string FormId { get; set; } 
-        public int FormTemplateLinkId { get; set; }
+        public int FormTemplateId { get; set; }
 
         public string TableGroupAlias { get; set; }
         public string RowAlias { get; set; }

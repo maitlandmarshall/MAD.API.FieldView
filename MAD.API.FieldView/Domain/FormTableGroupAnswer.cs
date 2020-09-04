@@ -26,5 +26,7 @@ namespace MAD.API.FieldView.Domain
         public bool HasDocuments { get; set; }
 
         public JObject CustomAnswers { get; set; }
+
+        public int FormTemplateId { get; set; }
     }
 }

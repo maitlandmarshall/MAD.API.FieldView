@@ -6,6 +6,7 @@ namespace MAD.API.FieldView.Domain
 {
     public class FormsSuperStatusCountInformation
     {
+        public int ProjectId { get; set; }
         public string Project { get; set; }
         public string TaskType { get; set; }
         public string FormTemplate { get; set; }

@@ -2,11 +2,9 @@
 using FormsServicesEndpoint;
 using MAD.API.FieldView.Domain;
 using Newtonsoft.Json;
-using ProjectServicesEndpoint;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel.Channels;
 using System.Threading.Tasks;
 
 namespace MAD.API.FieldView
@@ -17,99 +15,24 @@ namespace MAD.API.FieldView
 
         private const int PageSize = 500;
 
-        private readonly string? apiToken;
+        private readonly string apiToken;
         private readonly string baseUri;
-        private readonly string? loginName;
-        private readonly string? password;
+
+        private readonly API_FormsServicesSoapClient formsServicesClient;
+        private readonly API_ConfigurationServicesSoapClient configServicesClient;
 
         public FieldViewClient(string apiKey, string baseUri = null)
         {
             this.apiToken = apiKey;
             this.baseUri = baseUri;
+
+            SoapClientFactory soapClientFactory = new SoapClientFactory();
+
+            this.formsServicesClient = soapClientFactory.CreateFormsServicesClient(this.baseUri);
+            this.configServicesClient = soapClientFactory.CreateConfigurationServicesClient(this.baseUri);
         }
 
-        public FieldViewClient(string loginName, string password, string baseUri = null)
-        {
-            this.loginName = loginName;
-            this.password = password;
-            this.baseUri = baseUri;
-        }
-
-        private void SetBindingTimeouts(Binding binding)
-        {
-            binding.CloseTimeout = TimeSpan.FromMinutes(500);
-            binding.OpenTimeout = TimeSpan.FromMinutes(500);
-            binding.ReceiveTimeout = TimeSpan.FromMinutes(500);
-            binding.SendTimeout = TimeSpan.FromMinutes(500);
-        }
-
-        private readonly API_ProjectServicesSoapClient projectServicesSoapClient;
-        private async Task<API_ProjectServicesSoapClient> GetProjectServicesClient()
-        {
-            API_ProjectServicesSoapClient result = this.projectServicesSoapClient;
-
-            if (result is null)
-            {
-                if (!string.IsNullOrEmpty(this.baseUri))
-                {
-                    result = new API_ProjectServicesSoapClient(API_ProjectServicesSoapClient.EndpointConfiguration.API_ProjectServicesSoap, this.baseUri + "API_ProjectServices.asmx");
-                }
-                else
-                {
-                    result = new API_ProjectServicesSoapClient(API_ProjectServicesSoapClient.EndpointConfiguration.API_ProjectServicesSoap);
-                }
-
-            }
-
-            this.SetBindingTimeouts(result.Endpoint.Binding);
-
-            return result;
-        }
-
-        private readonly API_FormsServicesSoapClient formsServicesClient;
-        private async Task<API_FormsServicesSoapClient> GetFormsServicesClient()
-        {
-            API_FormsServicesSoapClient result = this.formsServicesClient;
-
-            if (result is null)
-            {
-                if (!string.IsNullOrEmpty(this.baseUri))
-                {
-                    result = new API_FormsServicesSoapClient(API_FormsServicesSoapClient.EndpointConfiguration.API_FormsServicesSoap, this.baseUri + "API_FormsServices.asmx");
-                }
-                else
-                {
-                    result = new API_FormsServicesSoapClient(API_FormsServicesSoapClient.EndpointConfiguration.API_FormsServicesSoap);
-                }
-            }
-
-            this.SetBindingTimeouts(result.Endpoint.Binding);
-
-            return result;
-        }
-
-        private readonly API_ConfigurationServicesSoapClient configurationServicesClient;
-        private async Task<API_ConfigurationServicesSoapClient> GetConfigurationServicesClient()
-        {
-            API_ConfigurationServicesSoapClient result = this.configurationServicesClient;
-
-            if (result is null)
-            {
-                if (!string.IsNullOrEmpty(this.baseUri))
-                {
-                    result = new API_ConfigurationServicesSoapClient(API_ConfigurationServicesSoapClient.EndpointConfiguration.API_ConfigurationServicesSoap, this.baseUri + "API_ConfigurationServices.asmx");
-                }
-                else
-                {
-                    result = new API_ConfigurationServicesSoapClient(API_ConfigurationServicesSoapClient.EndpointConfiguration.API_ConfigurationServicesSoap);
-                }
-            }
-
-
-            this.SetBindingTimeouts(result.Endpoint.Binding);
-
-            return result;
-        }
+        #region ARRAY HELPERS
 
         private ProjectServicesEndpoint.ArrayOfInt GetProjectArrayOfInt(int[] array)
         {
@@ -162,6 +85,8 @@ namespace MAD.API.FieldView
             return arrayOfInt;
         }
 
+        #endregion
+
         private async Task<IEnumerable<TEntity>> RunApiWithPagination<TEntity>(RunApiWithPaginationCallback apiCall, int? take = null, int? startRow = null)
         {
             List<TEntity> finalResult = new List<TEntity>();
@@ -201,12 +126,10 @@ namespace MAD.API.FieldView
                                                                                     int? take = null,
                                                                                     int? startRow = null)
         {
-            API_ConfigurationServicesSoapClient configServicesClient = await this.GetConfigurationServicesClient();
-
             return await this.RunApiWithPagination<ProjectInformation>(
                 apiCall: async (take, startRow) =>
                 {
-                    GetProjectsResponse response = await configServicesClient.GetProjectsAsync(this.apiToken, null, this.GetConfigArrayOfInt(businessUnitIds), false, 1, 500);
+                    GetProjectsResponse response = await this.configServicesClient.GetProjectsAsync(this.apiToken, null, this.GetConfigArrayOfInt(businessUnitIds), activeOnly: activeOnly ?? false, 1, 500);
                     return response.Body.GetProjectsResult;
                 },
                 take: take,
@@ -218,8 +141,7 @@ namespace MAD.API.FieldView
                                                                                                bool viewAllOrganisationsFormTemplates,
                                                                                                bool includeInactive = true)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetProjectFormTemplatesResponse getProjectFormTemplatesResponse = await formsServicesClient.GetProjectFormTemplatesAsync(this.apiToken, projectId, viewAllOrganisationsFormTemplates, includeInactive);
+            GetProjectFormTemplatesResponse getProjectFormTemplatesResponse = await this.formsServicesClient.GetProjectFormTemplatesAsync(this.apiToken, projectId, viewAllOrganisationsFormTemplates, includeInactive);
 
             IEnumerable<ProjectFormTemplateInformation> result = this.DeserializeResponse<ProjectFormTemplateInformation>(getProjectFormTemplatesResponse.Body.GetProjectFormTemplatesResult);
 
@@ -241,8 +163,7 @@ namespace MAD.API.FieldView
                                                                                         DateTime? lastmodifiedOnServerDateFrom = null,
                                                                                         DateTime? lastmodifiedOnServerDateTo = null)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetProjectFormsListResponse projectFormsListResponse = await formsServicesClient.GetProjectFormsListAsync(this.apiToken, projectId, this.GetFormArrayOfInt(formTemplateLinkIds), includeDeleted, createdDateFrom, createdDateTo, statusChangedDateFrom, statusChangedDateTo, lastmodifiedDateFrom, lastmodifiedDateTo, lastmodifiedOnServerDateFrom, lastmodifiedOnServerDateTo);
+            GetProjectFormsListResponse projectFormsListResponse = await this.formsServicesClient.GetProjectFormsListAsync(this.apiToken, projectId, this.GetFormArrayOfInt(formTemplateLinkIds), includeDeleted, createdDateFrom, createdDateTo, statusChangedDateFrom, statusChangedDateTo, lastmodifiedDateFrom, lastmodifiedDateTo, lastmodifiedOnServerDateFrom, lastmodifiedOnServerDateTo);
 
             return this.DeserializeResponse<ProjectFormsListInformation>(projectFormsListResponse.Body.GetProjectFormsListResult);
         }
@@ -254,16 +175,14 @@ namespace MAD.API.FieldView
                                                                                                       DateTime? answerLastModifiedOnServerFrom = null,
                                                                                                       DateTime? answerLastModifiedOnServerTo = null)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetProjectFormsListUpdatedResponse projectFormsListUpdatedResponse = await formsServicesClient.GetProjectFormsListUpdatedAsync(this.apiToken, projectId, this.GetFormArrayOfInt(formTemplateLinkIds), lastmodifiedDateFrom, lastmodifiedDateTo, answerLastModifiedOnServerFrom, answerLastModifiedOnServerTo);
+            GetProjectFormsListUpdatedResponse projectFormsListUpdatedResponse = await this.formsServicesClient.GetProjectFormsListUpdatedAsync(this.apiToken, projectId, this.GetFormArrayOfInt(formTemplateLinkIds), lastmodifiedDateFrom, lastmodifiedDateTo, answerLastModifiedOnServerFrom, answerLastModifiedOnServerTo);
 
             return this.DeserializeResponse<ProjectFormsListUpdatedInformation>(projectFormsListUpdatedResponse.Body.GetProjectFormsListUpdatedResult);
         }
 
         public async Task<IEnumerable<FormInformation>> GetForm(string formId)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormResponse getFormResponse = await formsServicesClient.GetFormAsync(this.apiToken, formId);
+            GetFormResponse getFormResponse = await this.formsServicesClient.GetFormAsync(this.apiToken, formId);
 
             IEnumerable<FormInformation> result = this.DeserializeResponse<FormInformation>(getFormResponse.Body.GetFormResult);
 
@@ -281,8 +200,7 @@ namespace MAD.API.FieldView
             if (string.IsNullOrEmpty(formAnswerId))
                 throw new ArgumentException("But be not null and not empty.", nameof(formAnswerId));
 
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormAnswerAuditTrailResponse response = await formsServicesClient.GetFormAnswerAuditTrailAsync(this.apiToken, formId, formTemplateId, formAnswerId, isInTableRow);
+            GetFormAnswerAuditTrailResponse response = await this.formsServicesClient.GetFormAnswerAuditTrailAsync(this.apiToken, formId, formTemplateId, formAnswerId, isInTableRow);
 
             return this.DeserializeResponse<FormAnswerAuditTrail>(response.Body.GetFormAnswerAuditTrailResult);
         }
@@ -292,8 +210,7 @@ namespace MAD.API.FieldView
             if (string.IsNullOrEmpty(formAnswerId))
                 throw new ArgumentException("But be not null and not empty.", nameof(formAnswerId));
 
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormAnswerCommentsResponse response = await formsServicesClient.GetFormAnswerCommentsAsync(this.apiToken, formAnswerId);
+            GetFormAnswerCommentsResponse response = await this.formsServicesClient.GetFormAnswerCommentsAsync(this.apiToken, formAnswerId);
 
             IEnumerable<CommentInformation> comments = this.DeserializeResponse<CommentInformation>(response.Body.GetFormAnswerCommentsResult);
 
@@ -307,8 +224,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormAuditTrail>> GetFormAuditTrail(string formId)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormAuditTrailResponse response = await formsServicesClient.GetFormAuditTrailAsync(this.apiToken, formId);
+            GetFormAuditTrailResponse response = await this.formsServicesClient.GetFormAuditTrailAsync(this.apiToken, formId);
 
             IEnumerable<FormAuditTrail> auditTrails = this.DeserializeResponse<FormAuditTrail>(response.Body.GetFormAuditTrailResult);
 
@@ -320,8 +236,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<CommentInformation>> GetFormComments(string formId)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormCommentsResponse response = await formsServicesClient.GetFormCommentsAsync(this.apiToken, formId);
+            GetFormCommentsResponse response = await this.formsServicesClient.GetFormCommentsAsync(this.apiToken, formId);
 
             IEnumerable<CommentInformation> comments = this.DeserializeResponse<CommentInformation>(response.Body.GetFormCommentsResult);
 
@@ -335,8 +250,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<CommentInformation>> GetProjectFormComments(int projectId, DateTime lastModifiedDateFrom, DateTime lastModifiedDateTo)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            var response = await formsServicesClient.GetProjectFormsCommentsAsync(this.apiToken, projectId, new FormsServicesEndpoint.ArrayOfInt(), lastModifiedDateFrom, lastModifiedDateTo, null, null);
+            GetProjectFormsCommentsResponse response = await this.formsServicesClient.GetProjectFormsCommentsAsync(this.apiToken, projectId, new FormsServicesEndpoint.ArrayOfInt(), lastModifiedDateFrom, lastModifiedDateTo, null, null);
 
             IEnumerable<CommentInformation> comments = this.DeserializeResponse<CommentInformation>(response.Body.GetProjectFormsCommentsResult);
 
@@ -345,8 +259,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormWorkflowStatus>> GetFormWorkflowStatusList(int formTemplateId, int? projectId = null)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormWorkflowStatusListResponse response = await formsServicesClient.GetFormWorkflowStatusListAsync(this.apiToken, formTemplateId, projectId);
+            GetFormWorkflowStatusListResponse response = await this.formsServicesClient.GetFormWorkflowStatusListAsync(this.apiToken, formTemplateId, projectId);
 
             IEnumerable<FormWorkflowStatus> workflowStatus = this.DeserializeResponse<FormWorkflowStatus>(response.Body.GetFormWorkflowStatusListResult);
 
@@ -360,24 +273,21 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormsSuperStatusCountInformation>> GetFormsSuperStatusCount(int projectId, int[] formTemplateLinkIds, DateTime dateFrom, DateTime dateTo)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormsSuperStatusCountResponse response = await formsServicesClient.GetFormsSuperStatusCountAsync(this.apiToken, projectId, this.GetFormArrayOfInt(formTemplateLinkIds), dateFrom, dateTo);
+            GetFormsSuperStatusCountResponse response = await this.formsServicesClient.GetFormsSuperStatusCountAsync(this.apiToken, projectId, this.GetFormArrayOfInt(formTemplateLinkIds), dateFrom, dateTo);
 
             return this.DeserializeResponse<FormsSuperStatusCountInformation>(response.Body.GetFormsSuperStatusCountResult);
         }
 
         public async Task<IEnumerable<FormInformation>> GetGroup(string formId, string groupAlias)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetGroupResponse response = await formsServicesClient.GetGroupAsync(this.apiToken, formId, groupAlias);
+            GetGroupResponse response = await this.formsServicesClient.GetGroupAsync(this.apiToken, formId, groupAlias);
 
             return this.DeserializeResponse<FormInformation>(response.Body.GetGroupResult);
         }
 
         public async Task<IEnumerable<FormAnswerInformation>> GetQuestionAnswer(string formId, string questionAlias)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetQuestionAnswerResponse response = await formsServicesClient.GetQuestionAnswerAsync(this.apiToken, formId, questionAlias);
+            GetQuestionAnswerResponse response = await this.formsServicesClient.GetQuestionAnswerAsync(this.apiToken, formId, questionAlias);
 
             IEnumerable<FormAnswerInformation> result = this.DeserializeResponse<FormAnswerInformation>(response.Body.GetQuestionAnswerResult);
 
@@ -389,8 +299,7 @@ namespace MAD.API.FieldView
 
         public async Task<FormTableGroup> GetTableGroup(string formId, int formTemplateLinkId)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetTableGroupResponse response = await formsServicesClient.GetTableGroupAsync(this.apiToken, formId, formTemplateLinkId);
+            GetTableGroupResponse response = await this.formsServicesClient.GetTableGroupAsync(this.apiToken, formId, formTemplateLinkId);
 
             FieldViewFormTableGroupResponse result = new FieldViewResponseFactory().Create(response.Body.GetTableGroupResult);
 
@@ -407,7 +316,7 @@ namespace MAD.API.FieldView
             return new FormTableGroup
             {
                 FormId = formId,
-                FormTemplateLinkId = formTemplateLinkId,
+                FormTemplateId = formTemplateLinkId,
                 Questions = result.Questions,
                 Answers = result.Answers
             };
@@ -415,8 +324,7 @@ namespace MAD.API.FieldView
 
         public async Task<FormTableGroup> GetTableGroupByAlias(string formId, string tableGroupAlias)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetTableGroupByAliasResponse response = await formsServicesClient.GetTableGroupByAliasAsync(this.apiToken, formId, tableGroupAlias);
+            GetTableGroupByAliasResponse response = await this.formsServicesClient.GetTableGroupByAliasAsync(this.apiToken, formId, tableGroupAlias);
 
             FieldViewFormTableGroupResponse result = new FieldViewResponseFactory().Create(response.Body.GetTableGroupByAliasResult);
 
@@ -441,8 +349,7 @@ namespace MAD.API.FieldView
 
         public async Task<FormTableGroup> GetStaticTableGroupRow(string formId, string tableGroupAlias, string rowAlias)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetStaticTableGroupRowResponse response = await formsServicesClient.GetStaticTableGroupRowAsync(this.apiToken, formId, tableGroupAlias, rowAlias);
+            GetStaticTableGroupRowResponse response = await this.formsServicesClient.GetStaticTableGroupRowAsync(this.apiToken, formId, tableGroupAlias, rowAlias);
 
             FieldViewFormTableGroupResponse result = new FieldViewResponseFactory().Create(response.Body.GetStaticTableGroupRowResult);
 
@@ -458,8 +365,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormTemplateInformation>> GetFormTemplateInformation(int formTemplateId)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormTemplateDetailsResponse response = await formsServicesClient.GetFormTemplateDetailsAsync(this.apiToken, formTemplateId);
+            GetFormTemplateDetailsResponse response = await this.formsServicesClient.GetFormTemplateDetailsAsync(this.apiToken, formTemplateId);
 
             IEnumerable<FormTemplateInformation> result = this.DeserializeResponse<FormTemplateInformation>(response.Body.GetFormTemplateDetailsResult);
 
@@ -468,8 +374,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormAttachment>> GetFormAttachments(string formId, string answerId = null)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormAttachmentsResponse response = await formsServicesClient.GetFormAttachmentsAsync(this.apiToken, formId, answerId);
+            GetFormAttachmentsResponse response = await this.formsServicesClient.GetFormAttachmentsAsync(this.apiToken, formId, answerId);
 
             IEnumerable<FormAttachment> result = this.DeserializeResponse<FormAttachment>(response.Body.GetFormAttachmentsResult);
 
@@ -483,8 +388,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormsListAttachmentInformation>> GetProjectFormAttachments(int projectId, DateTime lastmodifiedDateFrom, DateTime lastmodifiedDateTo)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetProjectFormsAttachmentsResponse response = await formsServicesClient.GetProjectFormsAttachmentsAsync(this.apiToken, projectId, new FormsServicesEndpoint.ArrayOfInt(), lastmodifiedDateFrom, lastmodifiedDateTo, null, null);
+            GetProjectFormsAttachmentsResponse response = await this.formsServicesClient.GetProjectFormsAttachmentsAsync(this.apiToken, projectId, new FormsServicesEndpoint.ArrayOfInt(), lastmodifiedDateFrom, lastmodifiedDateTo, null, null);
 
             IEnumerable<FormsListAttachmentInformation> result = this.DeserializeResponse<FormsListAttachmentInformation>(response.Body.GetProjectFormsAttachmentsResult);
 
@@ -493,8 +397,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormDocument>> GetFormDocument(string formId, int documentId)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormDocumentResponse response = await formsServicesClient.GetFormDocumentAsync(this.apiToken, formId, documentId);
+            GetFormDocumentResponse response = await this.formsServicesClient.GetFormDocumentAsync(this.apiToken, formId, documentId);
 
             IEnumerable<FormDocument> result = this.DeserializeResponse<FormDocument>(response.Body.GetFormDocumentResult);
 
@@ -508,8 +411,7 @@ namespace MAD.API.FieldView
 
         public async Task<IEnumerable<FormPhoto>> GetFormPhoto(string formId, string mediaId)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-            GetFormPhotoResponse response = await formsServicesClient.GetFormPhotoAsync(this.apiToken, formId, mediaId);
+            GetFormPhotoResponse response = await this.formsServicesClient.GetFormPhotoAsync(this.apiToken, formId, mediaId);
 
             IEnumerable<FormPhoto> result = this.DeserializeResponse<FormPhoto>(response.Body.GetFormPhotoResult);
 
@@ -523,10 +425,8 @@ namespace MAD.API.FieldView
 
         public async Task<FormPdf> GetFormPdf(string formId, bool showActions, bool showAnsweredBy, bool showAttachedComments, bool showAttachedDocuments, bool showAttachedImages, bool showStatusAuditTrail, string imageSize)
         {
-            API_FormsServicesSoapClient formsServicesClient = await this.GetFormsServicesClient();
-
             PDFImageSize size = (PDFImageSize)Enum.Parse(typeof(PDFImageSize), imageSize);
-            GetFormPdfResponse response = await formsServicesClient.GetFormPdfAsync(this.apiToken, formId, showActions, showAnsweredBy, showAttachedComments, showAttachedDocuments, showAttachedImages, showStatusAuditTrail, size);
+            GetFormPdfResponse response = await this.formsServicesClient.GetFormPdfAsync(this.apiToken, formId, showActions, showAnsweredBy, showAttachedComments, showAttachedDocuments, showAttachedImages, showStatusAuditTrail, size);
 
             FormPdf result = JsonConvert.DeserializeObject<FormPdf>(response.Body.GetFormPdfResult);
             result.FormId = formId;
