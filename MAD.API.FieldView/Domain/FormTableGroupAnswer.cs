@@ -13,6 +13,7 @@ namespace MAD.API.FieldView.Domain
 
         public string Id { get; set; }
         public string FormAnswerLinkId { get; set; }
+        public long FormAnswerLinkDateKey { get; set; }
         public DateTime? FormAnswerLinkDate { get; set; }
         public int SortOrder { get; set; }
         public string CheckItem { get; set; }

@@ -433,5 +433,32 @@ namespace MAD.API.FieldView
 
             return result;
         }
+
+        public async Task<IEnumerable<SimplePredefinedAnswerGroupInformation>> GetSimplePredefinedAnswerGroups(int organisationId, bool organisationUnitAndBelow = false)
+        {
+            var response = await this.formsServicesClient.GetSimplePredefinedFormAnswerGroupsAsync(this.apiToken, organisationId, organisationUnitAndBelow);
+            var result = this.DeserializeResponse<SimplePredefinedAnswerGroupInformation>(response.Body.GetSimplePredefinedFormAnswerGroupsResult);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<SimplePredefinedAnswerGroupItemInformation>> GetSimplePredefinedAnswerGroupItems(int predefinedAnswerGroupId, int? projectId = null)
+        {
+            var response = await this.formsServicesClient.GetSimplePredefinedAnswerGroupItemsAsync(this.apiToken, predefinedAnswerGroupId, projectId);
+            var result = this.DeserializeResponse<SimplePredefinedAnswerGroupItemInformation>(response.Body.GetSimplePredefinedAnswerGroupItemsResult);
+
+            foreach (var r in result)
+                r.PredefinedAnswerGroupId = predefinedAnswerGroupId;
+
+            return result;
+        }
+
+        public async Task<IEnumerable<OrganisationInformation>> GetOrganisations(int startRow = 0, int pageSize = 1000, string name = null, string alias = null, string registrationNo = null, int idGreaterThan = 0)
+        {
+            var response = await this.configServicesClient.GetOrganisationsAsync(this.apiToken, name, alias, registrationNo, idGreaterThan, startRow, pageSize);
+            var result = this.DeserializeResponse<OrganisationInformation>(response.Body.GetOrganisationsResult);
+
+            return result;
+        }
     }
 }
