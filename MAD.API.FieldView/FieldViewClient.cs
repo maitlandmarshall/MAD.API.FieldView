@@ -523,5 +523,13 @@ namespace MAD.API.FieldView
 
             return result;
         }
+
+        public async Task<IEnumerable<ProjectPeopleInformation>> GetProjectPeople(int projectId, int organisationId, string personName = null)
+        {
+            var response = await this.configServicesClient.GetProjectPeopleAsync(this.apiToken, projectId, organisationId, personName);
+            var result = this.DeserializeResponse<ProjectPeopleInformation>(response.Body.GetProjectPeopleResult);
+
+            return result;
+        }
     }
 }

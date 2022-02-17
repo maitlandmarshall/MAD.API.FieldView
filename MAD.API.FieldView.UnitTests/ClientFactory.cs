@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace MAD.API.FieldView.UnitTests
 {
@@ -9,9 +6,8 @@ namespace MAD.API.FieldView.UnitTests
     {
         public static FieldViewClient Create()
         {
-            string token = File.ReadAllText("APIToken.txt");
-
-            FieldViewClient client = new FieldViewClient(token);
+            var token = File.ReadAllText("APIToken.txt");
+            var client = new FieldViewClient(token, FieldViewDataCenter.UK.GetUri());
 
             return client;
         }

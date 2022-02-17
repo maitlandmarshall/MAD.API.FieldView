@@ -311,5 +311,12 @@ namespace MAD.API.FieldView.UnitTests
             }
         }
 
+        [TestMethod]
+        public async Task GetProjectPeople()
+        {
+            var client = this.GetClient();
+            var people = await client.GetProjectPeople(2422, 13208);
+        }
+
     }
 }
