@@ -18,5 +18,6 @@ namespace MAD.API.FieldView.Domain
         public int VisibilityOrganisationId { get; set; }
         public string VisibilityOrganisation { get; set; }
         public bool Active { get; set; }
+        public int? ParentId { get; set; }
     }
 }

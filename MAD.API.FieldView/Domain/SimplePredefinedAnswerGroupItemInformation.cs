@@ -8,6 +8,8 @@ namespace MAD.API.FieldView.Domain
     {
         public int PredefinedAnswerId { get; set; }
         public string Description { get; set; }
+        public string Colour { get; set; }
+        public int? ParentId { get; set; }
 
         public int PredefinedAnswerGroupId { get; set; }
 

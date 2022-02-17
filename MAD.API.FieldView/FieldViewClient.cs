@@ -92,14 +92,14 @@ namespace MAD.API.FieldView
             List<TEntity> finalResult = new List<TEntity>();
             IEnumerable<TEntity> pageResult;
 
-            int currentRow = startRow ?? 1;
+            int currentRow = startRow ?? 0;
 
             do
             {
                 pageResult = this.DeserializeResponse<TEntity>(await apiCall(take, currentRow));
                 finalResult.AddRange(pageResult);
 
-                currentRow = finalResult.Count() + 1;
+                currentRow = finalResult.Count();
 
             } while (pageResult.Count() == PageSize || take.HasValue && finalResult.Count >= take);
 
@@ -129,7 +129,7 @@ namespace MAD.API.FieldView
             return await this.RunApiWithPagination<ProjectInformation>(
                 apiCall: async (take, startRow) =>
                 {
-                    GetProjectsResponse response = await this.configServicesClient.GetProjectsAsync(this.apiToken, null, this.GetConfigArrayOfInt(businessUnitIds), activeOnly: activeOnly ?? false, 1, 500);
+                    GetProjectsResponse response = await this.configServicesClient.GetProjectsAsync(this.apiToken, null, this.GetConfigArrayOfInt(businessUnitIds), activeOnly: activeOnly ?? false, 0, 500);
                     return response.Body.GetProjectsResult;
                 },
                 take: take,
@@ -457,6 +457,69 @@ namespace MAD.API.FieldView
         {
             var response = await this.configServicesClient.GetOrganisationsAsync(this.apiToken, name, alias, registrationNo, idGreaterThan, startRow, pageSize);
             var result = this.DeserializeResponse<OrganisationInformation>(response.Body.GetOrganisationsResult);
+
+            return result;
+        }
+
+        public async Task<FormResponse> AddSimplePredefinedAnswerItem(
+            int predefinedAnswerGroupId,
+            string description,
+            System.Nullable<int> projectId = null,
+            System.Nullable<decimal> weight = null,
+            System.Nullable<decimal> score = null,
+            string colour = null,
+            System.Nullable<int> parentId = null,
+            System.Nullable<bool> sortOnInsert = null)
+        {
+            var response = await this.formsServicesClient.AddSimplePredefinedAnswerItemAsync(this.apiToken, predefinedAnswerGroupId, description, projectId, weight, score, colour, parentId, sortOnInsert);
+            var result = JsonConvert.DeserializeObject<FormResponse>(response.Body.AddSimplePredefinedAnswerItemResult);
+
+            return result;
+        }
+
+        public async Task<FormResponse> ActivatePredefinedAnswerItem(int predefinedAnswerId)
+        {
+            var response = await this.formsServicesClient.ActivatePredefinedAnswerItemAsync(this.apiToken, predefinedAnswerId);
+            var result = JsonConvert.DeserializeObject<FormResponse>(response.Body.ActivatePredefinedAnswerItemResult);
+
+            return result;
+        }
+
+        public async Task<FormResponse> DeactivatePredefinedAnswerItem(int predefinedAnswerId)
+        {
+            var response = await this.formsServicesClient.DecactivatePredefinedAnswerItemAsync(this.apiToken, predefinedAnswerId);
+            var result = JsonConvert.DeserializeObject<FormResponse>(response.Body.DecactivatePredefinedAnswerItemResult);
+
+            return result;
+        }
+
+        public async Task<FormResponse> EditSimplePredefinedAnswerItem(
+           int predefinedAnswerId,
+           string description,
+           System.Nullable<int> projectId = null,
+           System.Nullable<decimal> weight = null,
+           System.Nullable<decimal> score = null,
+           string colour = null,
+           System.Nullable<int> parentId = null)
+        {
+            var response = await this.formsServicesClient.EditSimplePredefinedAnswerItemAsync(this.apiToken, predefinedAnswerId, description, projectId, weight, score, colour, parentId);
+            var result = JsonConvert.DeserializeObject<FormResponse>(response.Body.EditSimplePredefinedAnswerItemResult);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<BusinessUnitInformation>> GetBusinessUnits()
+        {
+            var response = await this.configServicesClient.GetBusinessUnitsAsync(this.apiToken);
+            var result = this.DeserializeResponse<BusinessUnitInformation>(response.Body.GetBusinessUnitsResult);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ProjectInformation>> GetProjects(string projectName = null, int[] businessUnitIDs = null, bool activeOnly = false, int startRow = 0, int pageSize = 500)
+        {
+            var response = await this.configServicesClient.GetProjectsAsync(this.apiToken, projectName, this.GetConfigArrayOfInt(businessUnitIDs), activeOnly, startRow, pageSize);
+            var result = this.DeserializeResponse<ProjectInformation>(response.Body.GetProjectsResult);
 
             return result;
         }
