@@ -318,5 +318,18 @@ namespace MAD.API.FieldView.UnitTests
             var people = await client.GetProjectPeople(2422, 13208);
         }
 
+
+        [TestMethod]
+        public async Task GetPhotos()
+        {
+            var client = this.GetClient();
+            var attachments = await client.GetProjectFormAttachments(5532, DateTimeOffset.Parse("2022-03-06T22:30:15.3047316+10:00").Date, DateTime.Now);
+
+            foreach (var a in attachments)
+            {
+                var photo = await client.GetFormPhoto(a.FormId, a.Id);
+            }
+        }
+
     }
 }
